@@ -1,0 +1,537 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		93560BC21BBECEBE00B8FC91 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 93560BC11BBECEBE00B8FC91 /* main.m */; };
+		93560BC51BBECEBE00B8FC91 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93560BC41BBECEBE00B8FC91 /* AppDelegate.m */; };
+		93560BCB1BBECEBE00B8FC91 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93560BC91BBECEBE00B8FC91 /* Main.storyboard */; };
+		93560BCD1BBECEBE00B8FC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93560BCC1BBECEBE00B8FC91 /* Assets.xcassets */; };
+		93560BD01BBECEBE00B8FC91 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93560BCE1BBECEBE00B8FC91 /* LaunchScreen.storyboard */; };
+		93560BDB1BBECEBE00B8FC91 /* Charity_Bike_RouteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93560BDA1BBECEBE00B8FC91 /* Charity_Bike_RouteTests.m */; };
+		93560BE61BBECEBE00B8FC91 /* Charity_Bike_RouteUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93560BE51BBECEBE00B8FC91 /* Charity_Bike_RouteUITests.m */; };
+		93560BF41BBECFD600B8FC91 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93560BF31BBECFD600B8FC91 /* CoreLocation.framework */; };
+		93560BF61BBED1C600B8FC91 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93560BF51BBED1C600B8FC91 /* MapKit.framework */; };
+		935A2C401BBEDCA1003D3B37 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 935A2C3F1BBEDCA1003D3B37 /* MapViewController.m */; settings = {ASSET_TAGS = (); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		93560BD71BBECEBE00B8FC91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93560BB51BBECEBE00B8FC91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93560BBC1BBECEBE00B8FC91;
+			remoteInfo = "Charity Bike Route";
+		};
+		93560BE21BBECEBE00B8FC91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93560BB51BBECEBE00B8FC91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93560BBC1BBECEBE00B8FC91;
+			remoteInfo = "Charity Bike Route";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		93560BBD1BBECEBE00B8FC91 /* Charity Bike Route.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Charity Bike Route.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93560BC11BBECEBE00B8FC91 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		93560BC31BBECEBE00B8FC91 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		93560BC41BBECEBE00B8FC91 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		93560BCA1BBECEBE00B8FC91 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		93560BCC1BBECEBE00B8FC91 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		93560BCF1BBECEBE00B8FC91 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		93560BD11BBECEBE00B8FC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93560BD61BBECEBE00B8FC91 /* Charity Bike RouteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Charity Bike RouteTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93560BDA1BBECEBE00B8FC91 /* Charity_Bike_RouteTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Charity_Bike_RouteTests.m; sourceTree = "<group>"; };
+		93560BDC1BBECEBE00B8FC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93560BE11BBECEBE00B8FC91 /* Charity Bike RouteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Charity Bike RouteUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93560BE51BBECEBE00B8FC91 /* Charity_Bike_RouteUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Charity_Bike_RouteUITests.m; sourceTree = "<group>"; };
+		93560BE71BBECEBE00B8FC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93560BF31BBECFD600B8FC91 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		93560BF51BBED1C600B8FC91 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		935A2C3E1BBEDCA1003D3B37 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		935A2C3F1BBEDCA1003D3B37 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		93560BBA1BBECEBE00B8FC91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93560BF61BBED1C600B8FC91 /* MapKit.framework in Frameworks */,
+				93560BF41BBECFD600B8FC91 /* CoreLocation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93560BD31BBECEBE00B8FC91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93560BDE1BBECEBE00B8FC91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		93560BB41BBECEBE00B8FC91 = {
+			isa = PBXGroup;
+			children = (
+				93560BF51BBED1C600B8FC91 /* MapKit.framework */,
+				93560BF31BBECFD600B8FC91 /* CoreLocation.framework */,
+				93560BBF1BBECEBE00B8FC91 /* Charity Bike Route */,
+				93560BD91BBECEBE00B8FC91 /* Charity Bike RouteTests */,
+				93560BE41BBECEBE00B8FC91 /* Charity Bike RouteUITests */,
+				93560BBE1BBECEBE00B8FC91 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		93560BBE1BBECEBE00B8FC91 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				93560BBD1BBECEBE00B8FC91 /* Charity Bike Route.app */,
+				93560BD61BBECEBE00B8FC91 /* Charity Bike RouteTests.xctest */,
+				93560BE11BBECEBE00B8FC91 /* Charity Bike RouteUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		93560BBF1BBECEBE00B8FC91 /* Charity Bike Route */ = {
+			isa = PBXGroup;
+			children = (
+				93560BC31BBECEBE00B8FC91 /* AppDelegate.h */,
+				93560BC41BBECEBE00B8FC91 /* AppDelegate.m */,
+				93560BC91BBECEBE00B8FC91 /* Main.storyboard */,
+				93560BCC1BBECEBE00B8FC91 /* Assets.xcassets */,
+				93560BCE1BBECEBE00B8FC91 /* LaunchScreen.storyboard */,
+				93560BD11BBECEBE00B8FC91 /* Info.plist */,
+				93560BC01BBECEBE00B8FC91 /* Supporting Files */,
+				935A2C3E1BBEDCA1003D3B37 /* MapViewController.h */,
+				935A2C3F1BBEDCA1003D3B37 /* MapViewController.m */,
+			);
+			path = "Charity Bike Route";
+			sourceTree = "<group>";
+		};
+		93560BC01BBECEBE00B8FC91 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				93560BC11BBECEBE00B8FC91 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		93560BD91BBECEBE00B8FC91 /* Charity Bike RouteTests */ = {
+			isa = PBXGroup;
+			children = (
+				93560BDA1BBECEBE00B8FC91 /* Charity_Bike_RouteTests.m */,
+				93560BDC1BBECEBE00B8FC91 /* Info.plist */,
+			);
+			path = "Charity Bike RouteTests";
+			sourceTree = "<group>";
+		};
+		93560BE41BBECEBE00B8FC91 /* Charity Bike RouteUITests */ = {
+			isa = PBXGroup;
+			children = (
+				93560BE51BBECEBE00B8FC91 /* Charity_Bike_RouteUITests.m */,
+				93560BE71BBECEBE00B8FC91 /* Info.plist */,
+			);
+			path = "Charity Bike RouteUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		93560BBC1BBECEBE00B8FC91 /* Charity Bike Route */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93560BEA1BBECEBE00B8FC91 /* Build configuration list for PBXNativeTarget "Charity Bike Route" */;
+			buildPhases = (
+				93560BB91BBECEBE00B8FC91 /* Sources */,
+				93560BBA1BBECEBE00B8FC91 /* Frameworks */,
+				93560BBB1BBECEBE00B8FC91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Charity Bike Route";
+			productName = "Charity Bike Route";
+			productReference = 93560BBD1BBECEBE00B8FC91 /* Charity Bike Route.app */;
+			productType = "com.apple.product-type.application";
+		};
+		93560BD51BBECEBE00B8FC91 /* Charity Bike RouteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93560BED1BBECEBE00B8FC91 /* Build configuration list for PBXNativeTarget "Charity Bike RouteTests" */;
+			buildPhases = (
+				93560BD21BBECEBE00B8FC91 /* Sources */,
+				93560BD31BBECEBE00B8FC91 /* Frameworks */,
+				93560BD41BBECEBE00B8FC91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				93560BD81BBECEBE00B8FC91 /* PBXTargetDependency */,
+			);
+			name = "Charity Bike RouteTests";
+			productName = "Charity Bike RouteTests";
+			productReference = 93560BD61BBECEBE00B8FC91 /* Charity Bike RouteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		93560BE01BBECEBE00B8FC91 /* Charity Bike RouteUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93560BF01BBECEBE00B8FC91 /* Build configuration list for PBXNativeTarget "Charity Bike RouteUITests" */;
+			buildPhases = (
+				93560BDD1BBECEBE00B8FC91 /* Sources */,
+				93560BDE1BBECEBE00B8FC91 /* Frameworks */,
+				93560BDF1BBECEBE00B8FC91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				93560BE31BBECEBE00B8FC91 /* PBXTargetDependency */,
+			);
+			name = "Charity Bike RouteUITests";
+			productName = "Charity Bike RouteUITests";
+			productReference = 93560BE11BBECEBE00B8FC91 /* Charity Bike RouteUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		93560BB51BBECEBE00B8FC91 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Advanced Decisions";
+				TargetAttributes = {
+					93560BBC1BBECEBE00B8FC91 = {
+						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = RG2HU9RVB4;
+					};
+					93560BD51BBECEBE00B8FC91 = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 93560BBC1BBECEBE00B8FC91;
+					};
+					93560BE01BBECEBE00B8FC91 = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 93560BBC1BBECEBE00B8FC91;
+					};
+				};
+			};
+			buildConfigurationList = 93560BB81BBECEBE00B8FC91 /* Build configuration list for PBXProject "Charity Bike Route" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 93560BB41BBECEBE00B8FC91;
+			productRefGroup = 93560BBE1BBECEBE00B8FC91 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				93560BBC1BBECEBE00B8FC91 /* Charity Bike Route */,
+				93560BD51BBECEBE00B8FC91 /* Charity Bike RouteTests */,
+				93560BE01BBECEBE00B8FC91 /* Charity Bike RouteUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		93560BBB1BBECEBE00B8FC91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93560BD01BBECEBE00B8FC91 /* LaunchScreen.storyboard in Resources */,
+				93560BCD1BBECEBE00B8FC91 /* Assets.xcassets in Resources */,
+				93560BCB1BBECEBE00B8FC91 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93560BD41BBECEBE00B8FC91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93560BDF1BBECEBE00B8FC91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		93560BB91BBECEBE00B8FC91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93560BC51BBECEBE00B8FC91 /* AppDelegate.m in Sources */,
+				93560BC21BBECEBE00B8FC91 /* main.m in Sources */,
+				935A2C401BBEDCA1003D3B37 /* MapViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93560BD21BBECEBE00B8FC91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93560BDB1BBECEBE00B8FC91 /* Charity_Bike_RouteTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93560BDD1BBECEBE00B8FC91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93560BE61BBECEBE00B8FC91 /* Charity_Bike_RouteUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		93560BD81BBECEBE00B8FC91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93560BBC1BBECEBE00B8FC91 /* Charity Bike Route */;
+			targetProxy = 93560BD71BBECEBE00B8FC91 /* PBXContainerItemProxy */;
+		};
+		93560BE31BBECEBE00B8FC91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93560BBC1BBECEBE00B8FC91 /* Charity Bike Route */;
+			targetProxy = 93560BE21BBECEBE00B8FC91 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		93560BC91BBECEBE00B8FC91 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				93560BCA1BBECEBE00B8FC91 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		93560BCE1BBECEBE00B8FC91 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				93560BCF1BBECEBE00B8FC91 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		93560BE81BBECEBE00B8FC91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		93560BE91BBECEBE00B8FC91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		93560BEB1BBECEBE00B8FC91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "Charity Bike Route/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.advdecisions.Charity-Bike-Route";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		93560BEC1BBECEBE00B8FC91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "Charity Bike Route/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.advdecisions.Charity-Bike-Route";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		93560BEE1BBECEBE00B8FC91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Charity Bike RouteTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.advdecisions.Charity-Bike-RouteTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Charity Bike Route.app/Charity Bike Route";
+			};
+			name = Debug;
+		};
+		93560BEF1BBECEBE00B8FC91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Charity Bike RouteTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.advdecisions.Charity-Bike-RouteTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Charity Bike Route.app/Charity Bike Route";
+			};
+			name = Release;
+		};
+		93560BF11BBECEBE00B8FC91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Charity Bike RouteUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.advdecisions.Charity-Bike-RouteUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Charity Bike Route";
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		93560BF21BBECEBE00B8FC91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Charity Bike RouteUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.advdecisions.Charity-Bike-RouteUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Charity Bike Route";
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		93560BB81BBECEBE00B8FC91 /* Build configuration list for PBXProject "Charity Bike Route" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93560BE81BBECEBE00B8FC91 /* Debug */,
+				93560BE91BBECEBE00B8FC91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93560BEA1BBECEBE00B8FC91 /* Build configuration list for PBXNativeTarget "Charity Bike Route" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93560BEB1BBECEBE00B8FC91 /* Debug */,
+				93560BEC1BBECEBE00B8FC91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93560BED1BBECEBE00B8FC91 /* Build configuration list for PBXNativeTarget "Charity Bike RouteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93560BEE1BBECEBE00B8FC91 /* Debug */,
+				93560BEF1BBECEBE00B8FC91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93560BF01BBECEBE00B8FC91 /* Build configuration list for PBXNativeTarget "Charity Bike RouteUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93560BF11BBECEBE00B8FC91 /* Debug */,
+				93560BF21BBECEBE00B8FC91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 93560BB51BBECEBE00B8FC91 /* Project object */;
+}
