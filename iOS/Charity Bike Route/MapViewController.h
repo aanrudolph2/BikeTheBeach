@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate>
+@interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, NSURLConnectionDataDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *resumeBtn;
 @property (strong, nonatomic) IBOutlet MKMapView * mapView;
