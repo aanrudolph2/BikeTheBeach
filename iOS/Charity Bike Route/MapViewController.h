@@ -12,7 +12,12 @@
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, NSURLConnectionDataDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *resumeBtn;
-@property (strong, nonatomic) IBOutlet MKMapView * mapView;
+@property (weak, nonatomic) IBOutlet MKMapView * mapView;
+@property (weak, nonatomic) IBOutlet UIButton * resumeBtn;
 @property (strong, nonatomic) CLLocationManager * locationManager;
+
+- (void) setRouteData: (id) mapPoints;
+- (void) disableInteraction;
+- (void) enableInteraction;
+
 @end

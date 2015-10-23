@@ -1,59 +1,92 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AoU-r2-voX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="fqw-gl-z12">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
-        <!--Assistance-->
-        <scene sceneID="hGB-gp-9Gl">
+        <!--Navigation Controller-->
+        <scene sceneID="dky-18-69C">
             <objects>
-                <viewController id="orl-RT-srh" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="h3O-2V-oEf"/>
-                        <viewControllerLayoutGuide type="bottom" id="hAx-zR-Y3c"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="RBM-AZ-FbJ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tuz-b9-Rzi">
-                                <rect key="frame" x="269" y="285" width="62" height="30"/>
-                                <animations/>
-                                <state key="normal" title="Call Help"/>
-                            </button>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Tuz-b9-Rzi" firstAttribute="centerY" secondItem="RBM-AZ-FbJ" secondAttribute="centerY" id="ERc-aE-5BJ"/>
-                            <constraint firstItem="Tuz-b9-Rzi" firstAttribute="centerX" secondItem="RBM-AZ-FbJ" secondAttribute="centerX" id="nvE-ed-HPD"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Assistance" id="ioQ-jo-uMQ"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PFX-Cl-pU2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="371" y="419"/>
-        </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="PDV-HS-0LY">
-            <objects>
-                <tabBarController id="AoU-r2-voX" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="uAO-oW-Aby">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                <navigationController id="fqw-gl-z12" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7Ms-5b-2g1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
+                    </navigationBar>
                     <connections>
-                        <segue destination="Z0J-fc-Dtk" kind="relationship" relationship="viewControllers" id="zaL-id-zBe"/>
-                        <segue destination="orl-RT-srh" kind="relationship" relationship="viewControllers" id="m6g-Ls-3iT"/>
+                        <segue destination="MDH-nu-Qhk" kind="relationship" relationship="rootViewController" id="Dpc-s2-uzw"/>
                     </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="61g-kB-yME" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aeC-g7-sJg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-401" y="-3"/>
+            <point key="canvasLocation" x="-2160" y="-3"/>
+        </scene>
+        <!--Route Chooser-->
+        <scene sceneID="tUe-pE-ipy">
+            <objects>
+                <viewController id="MDH-nu-Qhk" customClass="RouteChooser" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hP9-bt-9Ba">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <progressView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="Lvs-3K-6KM">
+                            <rect key="frame" x="0.0" y="64" width="600" height="2"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                        </progressView>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="routeName" textLabel="Xd2-yU-hak" style="IBUITableViewCellStyleDefault" id="a7W-OY-hll">
+                                <rect key="frame" x="0.0" y="94" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a7W-OY-hll" id="brZ-xK-eg4">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" tag="100" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xd2-yU-hak">
+                                            <rect key="frame" x="15" y="0.0" width="570" height="43"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <animations/>
+                                </tableViewCellContentView>
+                                <animations/>
+                                <connections>
+                                    <segue destination="Z0J-fc-Dtk" kind="show" id="HhT-j2-OgZ"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="KRA-8b-YZH">
+                        <nil key="title"/>
+                        <textField key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://raw.githubusercontent.com/aanrudolph2/BikeTheBeach/master/routes.json" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="OGx-MI-037">
+                            <rect key="frame" x="20" y="7" width="525" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="refresh" id="Jqx-hl-JVC">
+                            <connections>
+                                <action selector="refreshClicked:" destination="MDH-nu-Qhk" id="Z5f-Te-hD6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="progressView" destination="Lvs-3K-6KM" id="as9-hF-rGQ"/>
+                        <outlet property="pullURL" destination="OGx-MI-037" id="eOA-Ug-krD"/>
+                        <outlet property="refreshRoutes" destination="Jqx-hl-JVC" id="Q1u-7G-fjb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V1j-85-HX0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1394" y="-3"/>
         </scene>
         <!--Route Map-->
         <scene sceneID="Hdh-Vr-RkP">
@@ -68,11 +101,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="rsJ-W7-dl2">
-                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <animations/>
                             </mapView>
                             <button opaque="NO" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AzI-CW-shV">
-                                <rect key="frame" x="226" y="458" width="148" height="34"/>
+                                <rect key="frame" x="226" y="507" width="148" height="34"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
@@ -105,13 +138,13 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Route Map" id="FU3-Ow-KRC"/>
                     <connections>
-                        <outlet property="mapView" destination="rsJ-W7-dl2" id="uzZ-RA-tc4"/>
+                        <outlet property="mapView" destination="rsJ-W7-dl2" id="RIH-qw-onb"/>
                         <outlet property="resumeBtn" destination="AzI-CW-shV" id="usN-U3-2AD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Om-Qf-0Ag" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="371" y="-284"/>
+            <point key="canvasLocation" x="-682" y="-3"/>
         </scene>
     </scenes>
 </document>

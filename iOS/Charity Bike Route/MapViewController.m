@@ -14,7 +14,7 @@
 
 @implementation MapViewController
 
-NSMutableData * routeData;
+MKPolyline * route = nil;
 
 - (void)viewDidLoad
 {
@@ -27,40 +27,36 @@ NSMutableData * routeData;
     
     [_locationManager requestWhenInUseAuthorization];
     
-    routeData = [[NSMutableData alloc] init];
-    
-    NSURLRequest * req = [NSURLRequest requestWithURL:
-                          [NSURL URLWithString:@"https://raw.githubusercontent.com/aanrudolph2/BikeTheBeach/master/routes.json"]];
-    
-    [[NSURLConnection alloc] initWithRequest:req delegate:self];
-    
-    // Wait for response and load from there.
+    @try
+    {
+        [_mapView addOverlay:route];
+        [_mapView setCenterCoordinate:[route coordinate] animated:FALSE];
+        [_mapView setVisibleMapRect:[route boundingMapRect] animated:FALSE];
+    }
+    @catch(NSException * ex)
+    {
+        
+    }
     
 }
 
-- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [routeData appendData:data];
-}
 
-- (void) connectionDidFinishLoading:(NSURLConnection *)connection
+- (void) setRouteData:(id) mapPoints
 {
-    NSString * jsonString = [[NSString alloc] initWithData:routeData encoding:NSUTF8StringEncoding];
-    
-    id dict = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-    NSUInteger vCount = [dict count];
+    NSUInteger vCount = [mapPoints count];
     
     CLLocationCoordinate2D markerCoords[vCount];
     
     for(int i = 0; i < vCount; i ++)
     {
-        markerCoords[i] = CLLocationCoordinate2DMake([[[dict objectAtIndex:i] objectAtIndex:0] doubleValue], [[[dict objectAtIndex:i] objectAtIndex:1] doubleValue]);
+        markerCoords[i] = CLLocationCoordinate2DMake([[[mapPoints objectAtIndex:i] objectAtIndex:0] doubleValue],
+                                                     [[[mapPoints objectAtIndex:i] objectAtIndex:1] doubleValue]);
     }
     
-    MKPolyline * route = [MKPolyline polylineWithCoordinates:markerCoords count:vCount];
+    route = [MKPolyline polylineWithCoordinates:markerCoords count:vCount];
     
-    [_mapView addOverlay:route];
 }
+
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
@@ -80,9 +76,9 @@ NSMutableData * routeData;
 {
     if(status == kCLAuthorizationStatusAuthorizedWhenInUse)
     {
-        NSLog(@"Authorized to use location");
         [_locationManager startUpdatingLocation];
         [_mapView setMapType:MKMapTypeStandard];
+        
         _mapView.showsUserLocation = YES;
         _mapView.showsPointsOfInterest = NO;
         _mapView.userTrackingMode = MKUserTrackingModeFollow;
@@ -109,6 +105,18 @@ NSMutableData * routeData;
     _mapView.userTrackingMode = MKUserTrackingModeFollow;
 }
 
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    if(newLocation.speed > 0.894)
+    {
+        [self disableInteraction];
+    }
+    else
+    {
+        [self enableInteraction];
+    }
+}
+
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
 {
     if([overlay isKindOfClass:MKPolyline.class])
@@ -125,6 +133,18 @@ NSMutableData * routeData;
     {
         return nil;
     }
+}
+
+#pragma mark User Helper Functions
+
+- (void) disableInteraction
+{
+    [_mapView setUserInteractionEnabled:FALSE];
+}
+
+- (void) enableInteraction
+{
+    [_mapView setUserInteractionEnabled:true];
 }
 
 @end
