@@ -52,11 +52,18 @@
 
 	function initialize()
 	{
-		var mapOptions = { zoom: 17, center: {lat: 41.143353, lng: -73.236580} };
+		var mapOptions =
+		{
+			zoom: 17,
+			center: {lat: 41.143353, lng: -73.236580},
+			streetViewControl : false,
+			mapTypeControl : false,
+			styles : [{featureType : "poi", elementType : "labels", stylers : [{visibility : "off"}]}]
+		};
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 		
 		map.addListener('click', addMarker);
-		snappedPolyline = new google.maps.Polyline({strokeColor: 'black', strokeWeight: 3, map : map});
+		snappedPolyline = new google.maps.Polyline({strokeColor: 'blue', strokeWeight: 5, map : map, strokeOpacity : 0.5});
 		snappedPolyline.addListener('click', insertMarker);
 		
 		
@@ -98,6 +105,12 @@
 			var latlng = new google.maps.LatLng(
 			data.snappedPoints[i].location.latitude,
 			data.snappedPoints[i].location.longitude);
+			
+			if(data.snappedPoints[i].originalIndex)
+			{
+				markers[data.snappedPoints[i].originalIndex].setPosition(latlng);
+			}
+			
 			snappedCoordinates.push(latlng);
 		}
 		snappedPolyline.setPath(snappedCoordinates);
