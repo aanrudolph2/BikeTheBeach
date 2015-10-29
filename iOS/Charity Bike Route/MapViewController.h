@@ -12,10 +12,14 @@
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, NSURLConnectionDataDelegate>
 
+// Interface Builder Outlets
 @property (weak, nonatomic) IBOutlet MKMapView * mapView;
 @property (weak, nonatomic) IBOutlet UIButton * resumeBtn;
+
+// Accessible Location Manager
 @property (strong, nonatomic) CLLocationManager * locationManager;
 
+// Function Prototypes
 - (void) setRouteData: (id) mapPoints;
 - (void) disableInteraction;
 - (void) enableInteraction;

@@ -16,17 +16,23 @@
 
 MKPolyline * route = nil;
 
+// Called when view loads
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    // Allow this class to take actions from the MapView
     _mapView.delegate = self;
+    
+    // Set up location manager
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     
+    // Request authorization from user. Calls didChangeAuthorizationStatus on completion
     [_locationManager requestWhenInUseAuthorization];
     
+    // Add route overlay. If overlay is not specified, exception will be thrown.
     @try
     {
         [_mapView addOverlay:route];
@@ -37,10 +43,16 @@ MKPolyline * route = nil;
     {
         
     }
-    
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
+// Set route data using serialized JSON text
+// mapPoints may be as NSArray or NSDictionary depending on JSON input, thus it is specified as id
 - (void) setRouteData:(id) mapPoints
 {
     NSUInteger vCount = [mapPoints count];
@@ -57,7 +69,7 @@ MKPolyline * route = nil;
     
 }
 
-
+// Called when user manually pans map away from its center point. Shows the "Resueme Navigation" button.
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
     if(mapView.userTrackingMode == MKUserTrackingModeNone)
@@ -66,12 +78,7 @@ MKPolyline * route = nil;
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
+// Called when app must handle location authorization. See viewDidLoad.
 - (void) locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
     if(status == kCLAuthorizationStatusAuthorizedWhenInUse)
@@ -86,6 +93,7 @@ MKPolyline * route = nil;
     }
     else if(status == kCLAuthorizationStatusDenied)
     {
+        // TODO: Nag user with an info dialog saying location authorization is required, then offer to re-request auth.
         NSLog(@"Location auth failed");
     }
     else
@@ -99,14 +107,11 @@ MKPolyline * route = nil;
     NSLog(@"Location manager error: %@", error.localizedDescription);
 }
 
-- (IBAction)resumeNavigation:(id)sender
-{
-    [_resumeBtn setHidden:TRUE];
-    _mapView.userTrackingMode = MKUserTrackingModeFollow;
-}
 
+// Called when location is updated.
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+    // If we are travelling more than 2mph (0.894 m/sec), disable map interaction.
     if(newLocation.speed > 0.894)
     {
         [self disableInteraction];
@@ -117,6 +122,7 @@ MKPolyline * route = nil;
     }
 }
 
+// Called by the view renderer to determine how to render the map overlay. Set overlay color/alpha/line width here.
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
 {
     if([overlay isKindOfClass:MKPolyline.class])
@@ -126,7 +132,6 @@ MKPolyline * route = nil;
         lineView.lineWidth = 5;
         lineView.alpha = 0.5;
         
-        
         return lineView;
     }
     else
@@ -135,13 +140,24 @@ MKPolyline * route = nil;
     }
 }
 
+#pragma mark Interface Builder Outlet handlers
+
+// Called when Resume Button (if shown) is pressed. Resumes tracking the user on the map
+- (IBAction)resumeNavigation:(id)sender
+{
+    [_resumeBtn setHidden:TRUE];
+    _mapView.userTrackingMode = MKUserTrackingModeFollow;
+}
+
 #pragma mark User Helper Functions
 
+// Disables user interaction on the map
 - (void) disableInteraction
 {
     [_mapView setUserInteractionEnabled:FALSE];
 }
 
+// Enables user interaction on the map
 - (void) enableInteraction
 {
     [_mapView setUserInteractionEnabled:true];

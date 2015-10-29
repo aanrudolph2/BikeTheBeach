@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 
 @interface RouteChooser : UITableViewController <NSURLConnectionDataDelegate>
+
+// Interface Builder Outlets
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UITextField *pullURL;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *refreshRoutes;
