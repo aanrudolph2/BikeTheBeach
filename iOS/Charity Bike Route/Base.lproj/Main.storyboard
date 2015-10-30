@@ -57,7 +57,7 @@
                                 </tableViewCellContentView>
                                 <animations/>
                                 <connections>
-                                    <segue destination="Z0J-fc-Dtk" kind="show" id="HhT-j2-OgZ"/>
+                                    <segue destination="HkZ-07-3rR" kind="show" id="6YM-Z9-YNb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -88,10 +88,44 @@
             </objects>
             <point key="canvasLocation" x="-1394" y="-3"/>
         </scene>
+        <!--Route Preview-->
+        <scene sceneID="KR7-aa-gQ6">
+            <objects>
+                <viewController id="HkZ-07-3rR" customClass="RoutePreview" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MJR-6S-dJZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="sdC-9B-vfd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jA5-fW-fsc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="8vN-xW-VbK">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <animations/>
+                            </mapView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="8vN-xW-VbK" secondAttribute="trailing" id="9OW-xR-mzr"/>
+                            <constraint firstItem="8vN-xW-VbK" firstAttribute="leading" secondItem="jA5-fW-fsc" secondAttribute="leading" id="giI-Bn-qBQ"/>
+                            <constraint firstItem="8vN-xW-VbK" firstAttribute="top" secondItem="MJR-6S-dJZ" secondAttribute="bottom" id="lMb-rW-zIA"/>
+                            <constraint firstItem="8vN-xW-VbK" firstAttribute="bottom" secondItem="sdC-9B-vfd" secondAttribute="top" id="mAb-WM-3g9"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="8vN-xW-VbK" id="Lve-H6-Q0s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cIt-qb-rwu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-653" y="-3"/>
+        </scene>
         <!--Route Map-->
         <scene sceneID="Hdh-Vr-RkP">
             <objects>
-                <viewController title="Route Map" id="Z0J-fc-Dtk" customClass="MapViewController" sceneMemberID="viewController">
+                <viewController title="Route Map" id="Z0J-fc-Dtk" customClass="RouteNavigation" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ri2-aE-fAH"/>
                         <viewControllerLayoutGuide type="bottom" id="wEr-8L-Xzo"/>
@@ -120,31 +154,24 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="hidden" value="YES"/>
                                 </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="resumeNavigation:" destination="Z0J-fc-Dtk" eventType="touchDown" id="hc4-YT-r1H"/>
-                                </connections>
                             </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wEr-8L-Xzo" firstAttribute="top" secondItem="rsJ-W7-dl2" secondAttribute="bottom" id="9Dq-wn-PX8"/>
-                            <constraint firstItem="AzI-CW-shV" firstAttribute="centerX" secondItem="rsJ-W7-dl2" secondAttribute="centerX" id="Gd8-yi-nRi"/>
+                            <constraint firstItem="rsJ-W7-dl2" firstAttribute="leading" secondItem="GVi-pw-ptE" secondAttribute="leading" id="PGz-wu-RUr"/>
                             <constraint firstItem="wEr-8L-Xzo" firstAttribute="top" secondItem="AzI-CW-shV" secondAttribute="bottom" constant="59" id="UNT-Xh-a4u"/>
-                            <constraint firstItem="rsJ-W7-dl2" firstAttribute="top" secondItem="ri2-aE-fAH" secondAttribute="bottom" id="qDr-Kx-Bqp"/>
-                            <constraint firstItem="rsJ-W7-dl2" firstAttribute="leading" secondItem="GVi-pw-ptE" secondAttribute="leading" id="sh8-qH-sdo"/>
+                            <constraint firstItem="rsJ-W7-dl2" firstAttribute="top" secondItem="ri2-aE-fAH" secondAttribute="bottom" id="ccv-Dq-Gf8"/>
+                            <constraint firstItem="rsJ-W7-dl2" firstAttribute="bottom" secondItem="wEr-8L-Xzo" secondAttribute="top" id="jYG-D5-e1Z"/>
                             <constraint firstItem="AzI-CW-shV" firstAttribute="centerX" secondItem="GVi-pw-ptE" secondAttribute="centerX" id="w2d-OE-Mof"/>
+                            <constraint firstItem="rsJ-W7-dl2" firstAttribute="centerX" secondItem="AzI-CW-shV" secondAttribute="centerX" id="w6A-4s-kKo"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Route Map" id="FU3-Ow-KRC"/>
-                    <connections>
-                        <outlet property="mapView" destination="rsJ-W7-dl2" id="RIH-qw-onb"/>
-                        <outlet property="resumeBtn" destination="AzI-CW-shV" id="usN-U3-2AD"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Om-Qf-0Ag" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-682" y="-3"/>
+            <point key="canvasLocation" x="112" y="-3"/>
         </scene>
     </scenes>
 </document>

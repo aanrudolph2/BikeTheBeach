@@ -7,7 +7,7 @@
 //
 
 #import "RouteChooser.h"
-#import "MapViewController.h"
+#import "RoutePreview.h"
 
 @implementation RouteChooser
 
@@ -109,7 +109,7 @@ float responseLength;
     
     id mapData = [routeDict objectForKey:[[cell textLabel] text]];
     
-    [((MapViewController *)[segue destinationViewController]) setRouteData:mapData];
+    [((RoutePreview *)[segue destinationViewController]) setRouteData:mapData];
 }
 
 @end

@@ -1,20 +1,20 @@
 //
-//  MapViewController.m
+//  RouteNavigation.m
 //  Charity Bike Route
 //
-//  Created by Aaron Rudolph on 10/2/15.
+//  Created by Aaron Rudolph on 10/30/15.
 //  Copyright © 2015 Advanced Decisions. All rights reserved.
 //
 
-#import "MapViewController.h"
 
-@interface MapViewController ()
+#import "RouteNavigation.h"
 
+@interface RouteNavigation()
+    @property MKPolyline * route;
 @end
 
-@implementation MapViewController
+@implementation RouteNavigation
 
-MKPolyline * route = nil;
 
 // Called when view loads
 - (void)viewDidLoad
@@ -35,9 +35,9 @@ MKPolyline * route = nil;
     // Add route overlay. If overlay is not specified, exception will be thrown.
     @try
     {
-        [_mapView addOverlay:route];
-        [_mapView setCenterCoordinate:[route coordinate] animated:FALSE];
-        [_mapView setVisibleMapRect:[route boundingMapRect] animated:FALSE];
+        [_mapView addOverlay:_route];
+        [_mapView setCenterCoordinate:[_route coordinate] animated:FALSE];
+        [_mapView setVisibleMapRect:[_route boundingMapRect] animated:FALSE];
     }
     @catch(NSException * ex)
     {
@@ -65,7 +65,7 @@ MKPolyline * route = nil;
                                                      [[[mapPoints objectAtIndex:i] objectAtIndex:1] doubleValue]);
     }
     
-    route = [MKPolyline polylineWithCoordinates:markerCoords count:vCount];
+    _route = [MKPolyline polylineWithCoordinates:markerCoords count:vCount];
     
 }
 

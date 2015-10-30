@@ -16,8 +16,9 @@
 		93560BE61BBECEBE00B8FC91 /* Charity_Bike_RouteUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93560BE51BBECEBE00B8FC91 /* Charity_Bike_RouteUITests.m */; };
 		93560BF41BBECFD600B8FC91 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93560BF31BBECFD600B8FC91 /* CoreLocation.framework */; };
 		93560BF61BBED1C600B8FC91 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93560BF51BBED1C600B8FC91 /* MapKit.framework */; };
-		935A2C401BBEDCA1003D3B37 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 935A2C3F1BBEDCA1003D3B37 /* MapViewController.m */; settings = {ASSET_TAGS = (); }; };
+		935A2C401BBEDCA1003D3B37 /* RoutePreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 935A2C3F1BBEDCA1003D3B37 /* RoutePreview.m */; settings = {ASSET_TAGS = (); }; };
 		93F15FCD1BD03B2A006511AE /* RouteChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F15FCC1BD03B2A006511AE /* RouteChooser.m */; settings = {ASSET_TAGS = (); }; };
+		93FF2BC51BE3B0F9002C9873 /* RouteNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF2BC41BE3B0F9002C9873 /* RouteNavigation.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,10 +55,12 @@
 		93560BE71BBECEBE00B8FC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93560BF31BBECFD600B8FC91 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		93560BF51BBED1C600B8FC91 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		935A2C3E1BBEDCA1003D3B37 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
-		935A2C3F1BBEDCA1003D3B37 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		935A2C3E1BBEDCA1003D3B37 /* RoutePreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutePreview.h; sourceTree = "<group>"; };
+		935A2C3F1BBEDCA1003D3B37 /* RoutePreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutePreview.m; sourceTree = "<group>"; };
 		93F15FCB1BD03B2A006511AE /* RouteChooser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteChooser.h; sourceTree = "<group>"; };
 		93F15FCC1BD03B2A006511AE /* RouteChooser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteChooser.m; sourceTree = "<group>"; };
+		93FF2BC31BE3B0F9002C9873 /* RouteNavigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteNavigation.h; sourceTree = "<group>"; };
+		93FF2BC41BE3B0F9002C9873 /* RouteNavigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteNavigation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,10 +122,12 @@
 				93560BCE1BBECEBE00B8FC91 /* LaunchScreen.storyboard */,
 				93560BD11BBECEBE00B8FC91 /* Info.plist */,
 				93560BC01BBECEBE00B8FC91 /* Supporting Files */,
-				935A2C3E1BBEDCA1003D3B37 /* MapViewController.h */,
-				935A2C3F1BBEDCA1003D3B37 /* MapViewController.m */,
+				935A2C3E1BBEDCA1003D3B37 /* RoutePreview.h */,
+				935A2C3F1BBEDCA1003D3B37 /* RoutePreview.m */,
 				93F15FCB1BD03B2A006511AE /* RouteChooser.h */,
 				93F15FCC1BD03B2A006511AE /* RouteChooser.m */,
+				93FF2BC31BE3B0F9002C9873 /* RouteNavigation.h */,
+				93FF2BC41BE3B0F9002C9873 /* RouteNavigation.m */,
 			);
 			path = "Charity Bike Route";
 			sourceTree = "<group>";
@@ -285,8 +290,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				93560BC51BBECEBE00B8FC91 /* AppDelegate.m in Sources */,
+				93FF2BC51BE3B0F9002C9873 /* RouteNavigation.m in Sources */,
 				93560BC21BBECEBE00B8FC91 /* main.m in Sources */,
-				935A2C401BBEDCA1003D3B37 /* MapViewController.m in Sources */,
+				935A2C401BBEDCA1003D3B37 /* RoutePreview.m in Sources */,
 				93F15FCD1BD03B2A006511AE /* RouteChooser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,16 +1,17 @@
 //
-//  MapViewController.h
+//  RouteNavigation.h
 //  Charity Bike Route
 //
-//  Created by Aaron Rudolph on 10/2/15.
+//  Created by Aaron Rudolph on 10/30/15.
 //  Copyright © 2015 Advanced Decisions. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+
+#import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, NSURLConnectionDataDelegate>
+@interface RouteNavigation : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, NSURLConnectionDataDelegate>
 
 // Interface Builder Outlets
 @property (weak, nonatomic) IBOutlet MKMapView * mapView;
