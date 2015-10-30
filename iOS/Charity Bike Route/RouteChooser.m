@@ -109,7 +109,7 @@ float responseLength;
     
     id mapData = [routeDict objectForKey:[[cell textLabel] text]];
     
-    [((RoutePreview *)[segue destinationViewController]) setRouteData:mapData];
+    [((RoutePreview *)[segue destinationViewController]) setRouteData:mapData : [[cell textLabel] text]];
 }
 
 @end

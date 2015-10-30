@@ -88,7 +88,7 @@
             </objects>
             <point key="canvasLocation" x="-1394" y="-3"/>
         </scene>
-        <!--Route Preview-->
+        <!--Route Name-->
         <scene sceneID="KR7-aa-gQ6">
             <objects>
                 <viewController id="HkZ-07-3rR" customClass="RoutePreview" sceneMemberID="viewController">
@@ -114,7 +114,15 @@
                             <constraint firstItem="8vN-xW-VbK" firstAttribute="bottom" secondItem="sdC-9B-vfd" secondAttribute="top" id="mAb-WM-3g9"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Route Name" id="Z5v-Up-S2o">
+                        <barButtonItem key="rightBarButtonItem" title="Start" style="done" id="c8H-yu-y4Z">
+                            <connections>
+                                <segue destination="Z0J-fc-Dtk" kind="show" id="VQz-eF-6OW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="TitleView" destination="Z5v-Up-S2o" id="cen-kV-hKp"/>
                         <outlet property="mapView" destination="8vN-xW-VbK" id="Lve-H6-Q0s"/>
                     </connections>
                 </viewController>
@@ -168,6 +176,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Route Map" id="FU3-Ow-KRC"/>
+                    <connections>
+                        <outlet property="mapView" destination="rsJ-W7-dl2" id="1kU-hY-BB8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Om-Qf-0Ag" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

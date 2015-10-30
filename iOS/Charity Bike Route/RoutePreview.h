@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "RouteNavigation.h"
 
 @interface RoutePreview : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, NSURLConnectionDataDelegate>
 
@@ -17,6 +18,6 @@
 
 // Set Route Function
 
-- (void) setRouteData: (id) mapPoints;
+- (void) setRouteData: (id) mapPoints : (NSString *) routeName;
 
 @end

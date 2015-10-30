@@ -10,11 +10,13 @@
 
 @interface RoutePreview ()
 
+@property MKPolyline * route;
+@property (weak, nonatomic) IBOutlet UINavigationItem * TitleView;
+@property id mapPoints;
+
 @end
 
 @implementation RoutePreview
-
-MKPolyline * route = nil;
 
 // Called when view loads
 - (void)viewDidLoad
@@ -27,9 +29,9 @@ MKPolyline * route = nil;
     // Add route overlay. If overlay is not specified, exception will be thrown.
     @try
     {
-        [_mapView addOverlay:route];
-        [_mapView setCenterCoordinate:[route coordinate] animated:FALSE];
-        [_mapView setVisibleMapRect:[route boundingMapRect] animated:FALSE];
+        [_mapView addOverlay:_route];
+        [_mapView setCenterCoordinate:[_route coordinate] animated:FALSE];
+        [_mapView setVisibleMapRect:[_route boundingMapRect] animated:FALSE];
     }
     @catch(NSException * ex)
     {
@@ -45,8 +47,11 @@ MKPolyline * route = nil;
 
 // Set route data using serialized JSON text
 // mapPoints may be as NSArray or NSDictionary depending on JSON input, thus it is specified as id
-- (void) setRouteData:(id) mapPoints
+- (void) setRouteData:(id) mapPoints : (NSString *) routeName
 {
+    _mapPoints = mapPoints;
+    [_TitleView setTitle:routeName];
+    
     NSUInteger vCount = [mapPoints count];
     
     CLLocationCoordinate2D markerCoords[vCount];
@@ -57,7 +62,7 @@ MKPolyline * route = nil;
                                                      [[[mapPoints objectAtIndex:i] objectAtIndex:1] doubleValue]);
     }
     
-    route = [MKPolyline polylineWithCoordinates:markerCoords count:vCount];
+    _route = [MKPolyline polylineWithCoordinates:markerCoords count:vCount];
     
 }
 
@@ -77,6 +82,11 @@ MKPolyline * route = nil;
     {
         return nil;
     }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [((RouteNavigation *)[segue destinationViewController]) setRouteData:_mapPoints];
 }
 
 @end
