@@ -25,11 +25,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
 
@@ -78,6 +81,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+
+                ArrayList<Route> routes  = new ArrayList<>();
+                try{
+                    int i = 1;
+                    while(response.get("Route "+i)!=null){
+                        JSONArray name = (JSONArray) response.get("Route "+i);
+
+                        ArrayList<Coord> coords = new ArrayList<>();
+                        int size = name.length();
+                        for(int j=0;j<name.length();j++){
+                            JSONArray nums   = name.getJSONArray(j);
+                            double lat = nums.getDouble(0);
+                            double longi = nums.getDouble(1);
+                            coords.add(new Coord(lat, longi));
+                        }
+                        routes.add(new Route(coords, i));
+                        i++;
+                    }
+                }catch( JSONException e){
+                    int q = 53;
+                    q++;
+                    //throw new JSONException(e.toString());
+                }
+
+                System.out.println(routes);
                 System.out.println(response);
                 tv.setText(response.toString());
             }
