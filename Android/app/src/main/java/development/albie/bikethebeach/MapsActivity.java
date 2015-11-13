@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
-
+    private ArrayList<Route> routes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onResponse(JSONObject response) {
 
-                ArrayList<Route> routes  = new ArrayList<>();
+                routes  = new ArrayList<>();
                 try{
                     int i = 1;
                     while(response.get("Route "+i)!=null){
@@ -108,6 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 System.out.println(routes);
                 System.out.println(response);
                 tv.setText(response.toString());
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -119,5 +120,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             queue.add(jsObjRequest);
 
+    }
+
+    public ArrayList<Route> getRoutes(){
+        return routes;
     }
 }
