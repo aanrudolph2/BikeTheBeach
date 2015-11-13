@@ -10,10 +10,16 @@
 #import "RouteNavigation.h"
 
 @interface RouteNavigation()
-    @property MKPolyline * route;
+@property MKPolyline * route;
+@property CLLocationCoordinate2D * markerCoords;
+@property int markerCoordsLength;
 @end
 
 @implementation RouteNavigation
+
+@synthesize markerCoords;
+@synthesize markerCoordsLength;
+@synthesize route;
 
 
 // Called when view loads
@@ -35,9 +41,9 @@
     // Add route overlay. If overlay is not specified, exception will be thrown.
     @try
     {
-        [_mapView addOverlay:_route];
-        [_mapView setCenterCoordinate:[_route coordinate] animated:FALSE];
-        [_mapView setVisibleMapRect:[_route boundingMapRect] animated:FALSE];
+        [_mapView addOverlay:route];
+        [_mapView setCenterCoordinate:[route coordinate] animated:FALSE];
+        [_mapView setVisibleMapRect:[route boundingMapRect] animated:FALSE];
     }
     @catch(NSException * ex)
     {
@@ -55,17 +61,19 @@
 // mapPoints may be as NSArray or NSDictionary depending on JSON input, thus it is specified as id
 - (void) setRouteData:(id) mapPoints
 {
-    NSUInteger vCount = [mapPoints count];
+    free(markerCoords);
     
-    CLLocationCoordinate2D markerCoords[vCount];
+    NSUInteger vCount = [mapPoints count];
+    markerCoords = malloc(sizeof(CLLocationCoordinate2D) * vCount);
     
     for(int i = 0; i < vCount; i ++)
     {
         markerCoords[i] = CLLocationCoordinate2DMake([[[mapPoints objectAtIndex:i] objectAtIndex:0] doubleValue],
-                                                     [[[mapPoints objectAtIndex:i] objectAtIndex:1] doubleValue]);
+                                                      [[[mapPoints objectAtIndex:i] objectAtIndex:1] doubleValue]);
     }
     
-    _route = [MKPolyline polylineWithCoordinates:markerCoords count:vCount];
+    route = [MKPolyline polylineWithCoordinates:markerCoords count:vCount];
+    markerCoordsLength = vCount;
     
 }
 
@@ -111,6 +119,7 @@
 // Called when location is updated.
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+    // NSLog(@"%f", newLocation.course);
     // If we are travelling more than 2mph (0.894 m/sec), disable map interaction.
     if(newLocation.speed > 0.894)
     {
@@ -120,6 +129,9 @@
     {
         [self enableInteraction];
     }
+    
+    // Check if we're still on course
+    
 }
 
 // Called by the view renderer to determine how to render the map overlay. Set overlay color/alpha/line width here.
@@ -161,6 +173,28 @@
 - (void) enableInteraction
 {
     [_mapView setUserInteractionEnabled:true];
+}
+
+// Checks if user is on course
+- (bool) isOnCourse: (CLLocation *) loc
+{
+    for(int i = 0; i < markerCoordsLength - 1; i ++)
+    {
+        CLLocationCoordinate2D position = loc.coordinate;
+        CLLocationCoordinate2D origin = markerCoords[i];
+        CLLocationCoordinate2D endpoint = markerCoords[i + 1];
+        
+        if(fabs((endpoint.latitude - origin.latitude) * position.latitude +
+                (origin.longitude - endpoint.longitude) * position.longitude +
+                (endpoint.longitude - endpoint.longitude)*origin.latitude +
+                (origin.latitude - endpoint.latitude) * origin.longitude) /
+           sqrt(pow(endpoint.latitude - origin.latitude, 2) + pow(origin.longitude - origin.longitude, 2)) <= 4.5)
+        {
+            return true;
+        }
+        
+    }
+    return false;
 }
 
 @end
