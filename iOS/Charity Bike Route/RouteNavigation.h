@@ -16,6 +16,7 @@
 // Interface Builder Outlets
 @property (weak, nonatomic) IBOutlet MKMapView * mapView;
 @property (weak, nonatomic) IBOutlet UIButton * resumeBtn;
+@property (weak, nonatomic) IBOutlet UILabel *courseNotification;
 
 // Accessible Location Manager
 @property (strong, nonatomic) CLLocationManager * locationManager;
@@ -24,5 +25,6 @@
 - (void) setRouteData: (id) mapPoints;
 - (void) disableInteraction;
 - (void) enableInteraction;
+- (bool) isOnCourse:(CLLocation *)loc;
 
 @end

@@ -155,19 +155,32 @@
                                     <action selector="resumeNavigation:" destination="cqC-hF-CaI" eventType="touchUpInside" id="maY-Tz-5Tu"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kze-e1-YRg">
+                                <rect key="frame" x="151" y="28" width="298" height="38"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                <string key="text">You may be off course.
+Please nagivate back to the marked route</string>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="mM4-ap-okP" firstAttribute="top" secondItem="tRS-8t-1eU" secondAttribute="bottom" constant="48" id="0WT-Md-PsG"/>
+                            <constraint firstItem="Kze-e1-YRg" firstAttribute="top" secondItem="qvA-BP-SVb" secondAttribute="bottom" constant="8" symbolic="YES" id="F0D-fr-qoV"/>
                             <constraint firstItem="LaH-pf-rfi" firstAttribute="leading" secondItem="QMb-RU-Kgz" secondAttribute="leading" id="JlQ-5T-Mr9"/>
                             <constraint firstItem="LaH-pf-rfi" firstAttribute="bottom" secondItem="mM4-ap-okP" secondAttribute="top" id="MvT-7w-faf"/>
                             <constraint firstItem="tRS-8t-1eU" firstAttribute="centerX" secondItem="QMb-RU-Kgz" secondAttribute="centerX" id="T70-Ir-sOy"/>
                             <constraint firstItem="LaH-pf-rfi" firstAttribute="top" secondItem="qvA-BP-SVb" secondAttribute="bottom" id="Wg1-D7-z9A"/>
                             <constraint firstItem="LaH-pf-rfi" firstAttribute="centerX" secondItem="tRS-8t-1eU" secondAttribute="centerX" id="oGn-7e-e9N"/>
+                            <constraint firstItem="Kze-e1-YRg" firstAttribute="centerX" secondItem="tRS-8t-1eU" secondAttribute="centerX" id="vCd-Lg-oHG"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="courseNotification" destination="Kze-e1-YRg" id="91b-rw-7dJ"/>
                         <outlet property="mapView" destination="LaH-pf-rfi" id="T58-og-94d"/>
                         <outlet property="resumeBtn" destination="tRS-8t-1eU" id="3C5-Qz-i61"/>
                     </connections>
