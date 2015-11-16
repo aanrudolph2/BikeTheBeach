@@ -117,11 +117,14 @@
 
 
 // Called when location is updated.
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(nonnull NSArray<CLLocation *> *)locations
 {
+    
+    CLLocation * loc = [locations objectAtIndex:0];
+    
     // NSLog(@"%f", newLocation.course);
     // If we are travelling more than 2mph (0.894 m/sec), disable map interaction.
-    if(newLocation.speed > 0.894)
+    if(loc.speed > 0.894)
     {
         [self disableInteraction];
     }
@@ -131,7 +134,14 @@
     }
     
     // Check if we're still on course
-    
+    if([self isOnCourse:loc])
+    {
+        [_courseNotification setHidden:YES];
+    }
+    else
+    {
+        [_courseNotification setHidden:NO];
+    }
 }
 
 // Called by the view renderer to determine how to render the map overlay. Set overlay color/alpha/line width here.
@@ -180,15 +190,11 @@
 {
     for(int i = 0; i < markerCoordsLength - 1; i ++)
     {
-        CLLocationCoordinate2D position = loc.coordinate;
-        CLLocationCoordinate2D origin = markerCoords[i];
-        CLLocationCoordinate2D endpoint = markerCoords[i + 1];
+        CLLocationCoordinate2D pos = loc.coordinate;
+        CLLocationCoordinate2D p1 = markerCoords[i];
+        CLLocationCoordinate2D p2 = markerCoords[i + 1];
         
-        if(fabs((endpoint.latitude - origin.latitude) * position.latitude +
-                (origin.longitude - endpoint.longitude) * position.longitude +
-                (endpoint.longitude - endpoint.longitude)*origin.latitude +
-                (origin.latitude - endpoint.latitude) * origin.longitude) /
-           sqrt(pow(endpoint.latitude - origin.latitude, 2) + pow(origin.longitude - origin.longitude, 2)) <= 4.5)
+        if(fabs((p2.longitude - p1.longitude) * pos.latitude + (p1.latitude - p2.latitude) * pos.longitude + (p1.longitude - p2.longitude) * p1.latitude + (p2.latitude - p1.latitude) * p1.longitude)/sqrt(pow(p2.longitude - p1.longitude, 2) + pow(p1.latitude - p2.latitude, 2)) <= 0.00002f)
         {
             return true;
         }
