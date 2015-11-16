@@ -1,9 +1,6 @@
 package development.albie.bikethebeach;
 
-import android.app.Activity;
 import android.content.Context;
-import android.provider.ContactsContract;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
