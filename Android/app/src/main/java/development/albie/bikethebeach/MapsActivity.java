@@ -1,6 +1,7 @@
 package development.albie.bikethebeach;
 
 import android.os.SystemClock;
+import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -32,10 +33,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DataFetchable{
 
     private GoogleMap mMap;
-    private ArrayList<Route> routes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +45,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        testJsonFetch();
+        DataAcquisition da = new DataAcquisition(this);
+        da.getRoutes();
     }
 
+    /*
+     * Because data fetching is asyncronous, this is the callback function that gets called after calling da.getRoutes();
+     */
+    public void fetchRoutesFinish(ArrayList<Route> routes){
+        TextView tv = (TextView) findViewById(R.id.mainTv);
+        String data = "";
+        for(int i =0; i< routes.get(0).getCoords().size();i++){
+            data += routes.get(0).getCoords().get(i).getLat()+", "+routes.get(0).getCoords().get(i).getLongi()+"\n";
+        }
+        tv.setText(data);
+    }
 
     /**
      * Manipulates the map once available.
@@ -68,61 +80,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(sydney.latitude, sydney.longitude), 15.0f));
     }
 
-    public void testJsonFetch(){
-
-        final TextView tv = (TextView) findViewById(R.id.mainTv);
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        String url ="http://rawgit.com/aanrudolph2/BikeTheBeach/master/routes.json";
-        //String url ="http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo";
-
-        CustomRequest jsObjRequest = new CustomRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                routes  = new ArrayList<>();
-                try{
-                    int i = 1;
-                    while(response.get("Route "+i)!=null){
-                        JSONArray name = (JSONArray) response.get("Route "+i);
-
-                        ArrayList<Coord> coords = new ArrayList<>();
-                        int size = name.length();
-                        for(int j=0;j<name.length();j++){
-                            JSONArray nums   = name.getJSONArray(j);
-                            double lat = nums.getDouble(0);
-                            double longi = nums.getDouble(1);
-                            coords.add(new Coord(lat, longi));
-                        }
-                        routes.add(new Route(coords, i));
-                        i++;
-                    }
-                }catch( JSONException e){
-                    int q = 53;
-                    q++;
-                    //throw new JSONException(e.toString());
-                }
-
-                System.out.println(routes);
-                System.out.println(response);
-                tv.setText(response.toString());
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("errorrr");
-            }
-        });
-
-
-            queue.add(jsObjRequest);
-
-    }
-
-    public ArrayList<Route> getRoutes(){
-        return routes;
-    }
 }
