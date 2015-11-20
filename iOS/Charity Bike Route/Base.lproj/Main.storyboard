@@ -147,36 +147,55 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <animations/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tRS-8t-1eU">
-                                <rect key="frame" x="234" y="522" width="132" height="30"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tRS-8t-1eU">
+                                <rect key="frame" x="230" y="518" width="140" height="38"/>
                                 <animations/>
+                                <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="j6A-EJ-gVT"/>
+                                    <constraint firstAttribute="height" constant="38" id="zIJ-1c-bAM"/>
+                                </constraints>
                                 <state key="normal" title="Resume Navigation"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="resumeNavigation:" destination="cqC-hF-CaI" eventType="touchUpInside" id="maY-Tz-5Tu"/>
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kze-e1-YRg">
-                                <rect key="frame" x="151" y="28" width="298" height="38"/>
+                                <rect key="frame" x="147" y="24" width="306" height="47"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="47" id="BxF-d9-eN9"/>
+                                    <constraint firstAttribute="width" constant="306" id="lBg-Qk-zjk"/>
+                                </constraints>
                                 <string key="text">You may be off course.
 Please nagivate back to the marked route</string>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRaduis">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="mM4-ap-okP" firstAttribute="top" secondItem="tRS-8t-1eU" secondAttribute="bottom" constant="48" id="0WT-Md-PsG"/>
-                            <constraint firstItem="Kze-e1-YRg" firstAttribute="top" secondItem="qvA-BP-SVb" secondAttribute="bottom" constant="8" symbolic="YES" id="F0D-fr-qoV"/>
                             <constraint firstItem="LaH-pf-rfi" firstAttribute="leading" secondItem="QMb-RU-Kgz" secondAttribute="leading" id="JlQ-5T-Mr9"/>
+                            <constraint firstItem="mM4-ap-okP" firstAttribute="top" secondItem="tRS-8t-1eU" secondAttribute="bottom" constant="44" id="KcC-Kk-oKx"/>
                             <constraint firstItem="LaH-pf-rfi" firstAttribute="bottom" secondItem="mM4-ap-okP" secondAttribute="top" id="MvT-7w-faf"/>
-                            <constraint firstItem="tRS-8t-1eU" firstAttribute="centerX" secondItem="QMb-RU-Kgz" secondAttribute="centerX" id="T70-Ir-sOy"/>
                             <constraint firstItem="LaH-pf-rfi" firstAttribute="top" secondItem="qvA-BP-SVb" secondAttribute="bottom" id="Wg1-D7-z9A"/>
-                            <constraint firstItem="LaH-pf-rfi" firstAttribute="centerX" secondItem="tRS-8t-1eU" secondAttribute="centerX" id="oGn-7e-e9N"/>
-                            <constraint firstItem="Kze-e1-YRg" firstAttribute="centerX" secondItem="tRS-8t-1eU" secondAttribute="centerX" id="vCd-Lg-oHG"/>
+                            <constraint firstItem="tRS-8t-1eU" firstAttribute="centerX" secondItem="LaH-pf-rfi" secondAttribute="centerX" id="hFc-jV-kkc"/>
+                            <constraint firstItem="tRS-8t-1eU" firstAttribute="centerX" secondItem="QMb-RU-Kgz" secondAttribute="centerX" id="n0J-tF-5jq"/>
+                            <constraint firstItem="Kze-e1-YRg" firstAttribute="top" secondItem="qvA-BP-SVb" secondAttribute="bottom" constant="4" id="rbM-Y9-buy"/>
+                            <constraint firstItem="tRS-8t-1eU" firstAttribute="centerX" secondItem="Kze-e1-YRg" secondAttribute="centerX" id="xmC-Nv-aLr"/>
                         </constraints>
                     </view>
                     <connections>
