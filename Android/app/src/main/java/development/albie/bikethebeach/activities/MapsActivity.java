@@ -1,8 +1,10 @@
 package development.albie.bikethebeach.activities;
 
 import android.graphics.Color;
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,7 +21,8 @@ import development.albie.bikethebeach.routedata.DataFetchable;
 import development.albie.bikethebeach.R;
 import development.albie.bikethebeach.routedata.Route;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DataFetchable {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DataFetchable, GoogleMap.OnMyLocationChangeListener
+{
 
     private GoogleMap mMap;
     public ArrayList<LatLng> polylines = new ArrayList<>();
@@ -40,10 +43,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /*
      * Because data fetching is asyncronous, this is the callback function that gets called after calling da.getRoutes();
      */
-    public void fetchRoutesFinish(ArrayList<Route> routes){
+    public void fetchRoutesFinish(ArrayList<Route> routes)
+    {
         TextView tv = (TextView) findViewById(R.id.mainTv);
 
-        if(routes==null || routes.size() ==0){
+        if(routes==null || routes.size() ==0)
+        {
             tv.setText("Error in downloaded Route data.");
             return;
         }
@@ -70,13 +75,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap)
+    {
         mMap = googleMap;
         LatLng sydney = new LatLng(39.71056240000001, -75.12029530000001);
         LatLng test = new LatLng(39.7111543617113, -75.12760716460377);
         mMap.addMarker(new MarkerOptions().position(test).title("Marker in Rowan"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(test));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(test.latitude, test.longitude), 15.0f));
+        mMap.setOnMyLocationChangeListener(this);
 
         //mMap.addPolyline(new PolylineOptions().addAll(polylines).width(15.0f).color(Color.RED));
 
@@ -87,12 +94,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //System.out.println("WTF" + polylines.toString());
     }
 
-    public void createRoute(GoogleMap googleMap) {
+    public void createRoute(GoogleMap googleMap)
+    {
         mMap = googleMap;
         LatLng test = new LatLng(39.7111543617113, -75.12760716460377);
         System.out.println("POLYLINES" + polylines.toString());
         PolylineOptions opts = new PolylineOptions().addAll(polylines).width(5).color(Color.BLUE);
         mMap.addPolyline(opts);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 39));
+        mMap.setMyLocationEnabled(true);
+    }
+
+    @Override
+    public void onMyLocationChange(Location location)
+    {
+        if(!onCourse(location))
+        {
+            Log.d("Location", "Off Course");
+        }
+    }
+
+    public boolean onCourse(Location location)
+    {
+        for(int i = 0; i < polylines.size() - 1; i ++)
+        {
+            LatLng p1 = polylines.get(i);
+            LatLng p2 = polylines.get(i + 1);
+
+            LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
+
+            if(Math.abs((p2.longitude - p1.longitude) * pos.longitude + (p1.latitude - p2.latitude) * pos.latitude
+            + (p1.longitude - p2.longitude) * p1.latitude + (p2.latitude - p1.latitude) * p1.longitude) /
+                    Math.sqrt(Math.pow(p2.longitude - p1.longitude, 2) + Math.pow(p2.latitude - p1.latitude, 2)) < 0.00002f)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
