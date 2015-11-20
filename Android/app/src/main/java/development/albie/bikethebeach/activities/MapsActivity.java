@@ -1,4 +1,4 @@
-package development.albie.bikethebeach;
+package development.albie.bikethebeach.activities;
 
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
@@ -10,12 +10,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DataFetchable{
+import development.albie.bikethebeach.routedata.DataAcquisition;
+import development.albie.bikethebeach.routedata.DataFetchable;
+import development.albie.bikethebeach.R;
+import development.albie.bikethebeach.routedata.Route;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DataFetchable {
 
     private GoogleMap mMap;
     public ArrayList<LatLng> polylines = new ArrayList<>();
