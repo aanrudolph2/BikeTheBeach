@@ -1,4 +1,4 @@
-package development.albie.bikethebeach;
+package development.albie.bikethebeach.routedata;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;

@@ -1,6 +1,8 @@
-package development.albie.bikethebeach;
+package development.albie.bikethebeach.routedata;
 
 import java.util.ArrayList;
+
+import development.albie.bikethebeach.routedata.Coord;
 
 /**
  * Created by Albert on 11/13/2015.
