@@ -95,7 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMyLocationChangeListener(this);
     }
 
-    public void startPreview(GoogleMap googleMap, ArrayList<Route> routes)
+    public void startPreview(GoogleMap googleMap, final ArrayList<Route> routes)
     {
         double max_north, max_south;
         double max_east, max_west;
@@ -131,13 +131,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final Button button = (Button) findViewById(R.id.start_nav_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                double user_lat = mMap.getMyLocation().getLatitude();
-                double user_long = mMap.getMyLocation().getLongitude();
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(user_lat, user_long), 19));
+                if (mMap.getMyLocation() != null) {
+                    double user_lat = mMap.getMyLocation().getLatitude();
+                    double user_long = mMap.getMyLocation().getLongitude();
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(user_lat, user_long), 19));
+                } else {
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(routes.get(0).getCoords().get(0).getLat(),
+                            routes.get(0).getCoords().get(0).getLongi()), 19));
+                }
+
             }
         });
-    }
 
+    }
     @Override
     public void onMyLocationChange(Location location)
     {
