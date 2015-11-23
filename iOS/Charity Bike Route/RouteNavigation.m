@@ -13,6 +13,7 @@
 @property MKPolyline * route;
 @property CLLocationCoordinate2D * markerCoords;
 @property int markerCoordsLength;
+@property NSMutableDictionary * directions;
 @end
 
 @implementation RouteNavigation
@@ -20,7 +21,9 @@
 @synthesize markerCoords;
 @synthesize markerCoordsLength;
 @synthesize route;
+@synthesize directions;
 
+BOOL onCourse = false;
 
 // Called when view loads
 - (void)viewDidLoad
@@ -61,15 +64,22 @@
 // mapPoints may be as NSArray or NSDictionary depending on JSON input, thus it is specified as id
 - (void) setRouteData:(id) mapPoints
 {
+    directions = [[NSMutableDictionary alloc] init];
     free(markerCoords);
     
-    NSUInteger vCount = [mapPoints count];
+    int vCount = (int)[mapPoints count];
     markerCoords = malloc(sizeof(CLLocationCoordinate2D) * vCount);
     
     for(int i = 0; i < vCount; i ++)
     {
         markerCoords[i] = CLLocationCoordinate2DMake([[[mapPoints objectAtIndex:i] objectAtIndex:0] doubleValue],
-                                                      [[[mapPoints objectAtIndex:i] objectAtIndex:1] doubleValue]);
+                                                     [[[mapPoints objectAtIndex:i] objectAtIndex:1] doubleValue]);
+        
+        
+        if([[mapPoints objectAtIndex:i] count] > 2)
+        {
+            [directions setObject:[[NSNumber alloc] initWithInteger:i] forKey:[[mapPoints objectAtIndex:i] objectAtIndex:2]];
+        }
     }
     
     route = [MKPolyline polylineWithCoordinates:markerCoords count:vCount];
@@ -134,13 +144,21 @@
     }
     
     // Check if we're still on course
-    if([self isOnCourse:loc])
+    if([self isOnCourse:loc] != onCourse)
     {
-        [_courseNotification setHidden:YES];
+        onCourse = !onCourse;
+        
+        if(!onCourse)
+        {
+            [self speakText:@"You may be off course."];
+        }
     }
-    else
+    [_courseNotification setHidden:onCourse];
+    NSString * direction = [self getNextInstruction:loc];
+    
+    if(direction != nil)
     {
-        [_courseNotification setHidden:NO];
+        [self speakText:direction];
     }
 }
 
@@ -194,13 +212,35 @@
         CLLocationCoordinate2D p1 = markerCoords[i];
         CLLocationCoordinate2D p2 = markerCoords[i + 1];
         
-        if(fabs((p2.longitude - p1.longitude) * pos.latitude + (p1.latitude - p2.latitude) * pos.longitude + (p1.longitude - p2.longitude) * p1.latitude + (p2.latitude - p1.latitude) * p1.longitude)/sqrt(pow(p2.longitude - p1.longitude, 2) + pow(p1.latitude - p2.latitude, 2)) <= 0.00002f)
+        if(fabs((p2.longitude - p1.longitude) * pos.latitude + (p1.latitude - p2.latitude) * pos.longitude + (p1.longitude - p2.longitude) * p1.latitude + (p2.latitude - p1.latitude) * p1.longitude)/sqrt(pow(p2.longitude - p1.longitude, 2) + pow(p1.latitude - p2.latitude, 2)) <= 0.00004f)
         {
             return true;
         }
         
     }
     return false;
+}
+
+- (NSString *) getNextInstruction:(CLLocation *) loc
+{
+    for(int i = 0; i < markerCoordsLength - 1; i ++)
+    {
+        CLLocationCoordinate2D pos = loc.coordinate;
+        CLLocationCoordinate2D p1 = markerCoords[i];
+        
+        if(sqrt(pow(pos.longitude - p1.longitude, 2) + pow(pos.latitude - p1.latitude, 2)) <= 0.00004f)
+        {
+            return [directions objectForKey:[[NSNumber alloc] initWithInteger:i]];
+        }
+    }
+    return nil;
+}
+
+- (void) speakText:(NSString *)text
+{
+    AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:text];
+    AVSpeechSynthesizer * synth = [[AVSpeechSynthesizer alloc] init];
+    [synth speakUtterance:utterance];
 }
 
 @end
