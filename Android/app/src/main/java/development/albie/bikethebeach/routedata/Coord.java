@@ -1,4 +1,4 @@
-package development.albie.bikethebeach;
+package development.albie.bikethebeach.routedata;
 
 /**
  * Created by Albert on 11/13/2015.
