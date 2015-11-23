@@ -5,12 +5,17 @@ import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -26,6 +31,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     public ArrayList<LatLng> polylines = new ArrayList<>();
+
+    private int map_prev_padding = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,24 +52,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     public void fetchRoutesFinish(ArrayList<Route> routes)
     {
-        TextView tv = (TextView) findViewById(R.id.mainTv);
-
         if(routes==null || routes.size() ==0)
         {
-            tv.setText("Error in downloaded Route data.");
+            System.out.println("Error in downloaded Route data.");
             return;
         }
-        String data = "";
+
         for(int i =0; i< routes.get(0).getCoords().size();i++){
-            data += routes.get(0).getCoords().get(i).getLat()+", "+routes.get(0).getCoords().get(i).getLongi()+"\n";
             //double lat = routes.get(0).getCoords().get(i).getLat();
             //double longi = routes.get(0).getCoords().get(i).getLongi();
             polylines.add(new LatLng(routes.get(0).getCoords().get(i).getLat(),routes.get(0).getCoords().get(i).getLongi()));
             //polylines.add(new LatLng(lat,longi));
             //System.out.println("LAT" + routes.get(0).getCoords().get(i).getLat());
         }
-        tv.setText(data);
+
         createRoute(mMap);
+        startPreview(mMap, routes);
     }
 
     /**
@@ -78,31 +83,59 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
-        LatLng sydney = new LatLng(39.71056240000001, -75.12029530000001);
-        LatLng test = new LatLng(39.7111543617113, -75.12760716460377);
-        mMap.addMarker(new MarkerOptions().position(test).title("Marker in Rowan"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(test));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(test.latitude, test.longitude), 15.0f));
-        mMap.setOnMyLocationChangeListener(this);
-
-        //mMap.addPolyline(new PolylineOptions().addAll(polylines).width(15.0f).color(Color.RED));
-
-        //PolylineOptions opts = new PolylineOptions().addAll(polylines).width(5).color(Color.BLUE);
-        //mMap.addPolyline(opts);
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test,39));
-        //polylines.add(new LatLng(test.latitude,test.longitude));
-        //System.out.println("WTF" + polylines.toString());
     }
 
     public void createRoute(GoogleMap googleMap)
     {
         mMap = googleMap;
-        LatLng test = new LatLng(39.7111543617113, -75.12760716460377);
         System.out.println("POLYLINES" + polylines.toString());
         PolylineOptions opts = new PolylineOptions().addAll(polylines).width(5).color(Color.BLUE);
         mMap.addPolyline(opts);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 39));
         mMap.setMyLocationEnabled(true);
+        mMap.setOnMyLocationChangeListener(this);
+    }
+
+    public void startPreview(GoogleMap googleMap, ArrayList<Route> routes)
+    {
+        double max_north, max_south;
+        double max_east, max_west;
+        max_north = max_south = routes.get(0).getCoords().get(0).getLat();
+        max_east = max_west = routes.get(0).getCoords().get(0).getLongi();
+
+        double temp_lat  = 0.0;
+        double temp_long = 0.0;
+        for(int i =0; i< routes.get(0).getCoords().size();i++){
+            temp_lat = routes.get(0).getCoords().get(i).getLat();
+            if(temp_lat > max_north)
+                max_north = temp_lat;
+            if(temp_lat < max_south)
+                max_south = temp_lat;
+
+            temp_long = routes.get(0).getCoords().get(i).getLongi();
+            if(temp_long > max_east)
+                max_east = temp_long;
+            if(temp_long < max_west)
+                max_west = temp_long;
+        }
+
+        LatLngBounds map_prev_bounds =
+                new LatLngBounds(new LatLng(max_south, max_west), new LatLng(max_north, max_east));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(map_prev_bounds, 10));
+
+        //this isnt working error saying map size cant be zero even though its the value of map prev
+        //padding must investigate further
+        //System.out.println(map_prev_padding);
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(map_prev_bounds, map_prev_padding));
+
+        final Button button = (Button) findViewById(R.id.start_nav_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                double user_lat = mMap.getMyLocation().getLatitude();
+                double user_long = mMap.getMyLocation().getLongitude();
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(user_lat, user_long), 19));
+            }
+        });
     }
 
     @Override
