@@ -45,10 +45,11 @@
 	<script>
 	var apiKey = 'AIzaSyBUyIV-JfLai3CEzPCOIRmWrfZU8-c4hm4';
 
-	var map;
-	var markers = [];
-	var snappedPolyline;
-	
+	var map;					// Stores Google Map object
+	var snappedPolyline;		// Stores Polyline object
+	var markers = [];			// Array of Google Marker Objects
+
+	MAX_VERTS_PER_PAGE = 100;
 
 	function initialize()
 	{
@@ -68,9 +69,55 @@
 		
 		
 	}
-	
+
 	// Call Snap To Road API
-	function runSnapToRoad()
+	function runSnapToRoad(startIndex, coords)
+	{
+		var pathValues = new Array();
+
+		// Load next Vertices
+		var tmp = markers.slice(startIndex, startIndex + MAX_VERTS_PER_PAGE);
+		for (var i = 0; i < tmp.length; i ++)
+		{
+			pathValues.push(markers[i + startIndex].position.lat() + "," + markers[i + startIndex].position.lng());
+		}
+
+		if(pathValues.length > 0)
+		{
+			$.get('https://roads.googleapis.com/v1/snapToRoads',
+			{
+				interpolate: true,
+				key: apiKey,
+				path: pathValues.join('|')
+			},
+			function(data)
+			{
+				for (var i = 0; i < data.snappedPoints.length; i ++)
+				{
+					var latlng = new google.maps.LatLng(
+						data.snappedPoints[i].location.latitude,
+						data.snappedPoints[i].location.longitude
+					);
+					
+					if(data.snappedPoints[i].originalIndex)
+					{
+						markers[data.snappedPoints[i].originalIndex + startIndex].setPosition(latlng);
+					}
+					coords.push(latlng);
+				}
+
+				runSnapToRoad(startIndex + MAX_VERTS_PER_PAGE, coords);
+			});
+		}
+		else
+		{
+			snappedPolyline.setPath(coords);
+			console.log(markers.length);
+		}
+	}
+
+	/*
+	function runSnapToRoad(startPage)
 	{
 		// Clear polylines first
 		for(var i = 0; i < markers.length; i ++)
@@ -79,11 +126,23 @@
 				markers[i].polyline.setMap(null);
 		}
 
+		if(startPage == 0)
+		{
+			polylineCoords = [];
+			pages = Math.ceil(markers.length / MAX_VERTS_PER_PAGE);
+		}
+
 		var pathValues = [];
-		for (var i = 0; i < markers.length; i++)
+		var endIndex = (startPage + 1) * MAX_VERTS_PER_PAGE;
+
+		// Load next Vertices
+		for (var i  in markers.slice(startPage * MAX_VERTS_PER_PAGE, endIndex))
 		{
 			pathValues.push(markers[i].position.lat() + "," + markers[i].position.lng());
 		}
+
+		console.log("Calling Google API : " + pathValues.join('|'));
+		// Call API
 		$.get('https://roads.googleapis.com/v1/snapToRoads',
 		{
 			interpolate: true,
@@ -92,15 +151,24 @@
 		},
 		function(data)
 		{
-			processSnapToRoadResponse(data);
+			processSnapToRoadResponse(data, startPage * MAX_VERTS_PER_PAGE);
+			if(startPage < pages)
+			{
+				runSnapToRoad(++startPage);
+			}
+			else
+			{
+				console.log(endIndex);
+				console.log(markers.length);
+			}
 		});
-	}
+	}*/
 
 	// Store snapped polyline returned by the snap-to-road method.
-	function processSnapToRoadResponse(data)
+	function processSnapToRoadResponse(data, startIndex)
 	{
-		var snappedCoordinates = [];
-		for (var i = 0; i < data.snappedPoints.length; i++)
+		var polylineCoords = [];
+		for (var i = startIndex; i < data.snappedPoints.length; i ++)
 		{
 			var latlng = new google.maps.LatLng(
 			data.snappedPoints[i].location.latitude,
@@ -111,15 +179,15 @@
 				markers[data.snappedPoints[i].originalIndex].setPosition(latlng);
 			}
 			
-			snappedCoordinates.push(latlng);
+			polylineCoords.push(latlng);
 		}
-		snappedPolyline.setPath(snappedCoordinates);
+		snappedPolyline.setPath(polylineCoords);
 	}
 
 	// Drag Marker
 	function dragMarker(event)
 	{
-		runSnapToRoad();
+		runSnapToRoad(0, []);
 	}
 
 	// Remove Marker
@@ -128,7 +196,7 @@
 		var idx = markers.indexOf(this);
 		var removed = markers.splice(idx, 1);
 		removed[0].setMap(null);
-		runSnapToRoad();
+		runSnapToRoad(0, []);
 	}
 
 	// Add marker
@@ -141,7 +209,7 @@
 
 		markers.push(markerTmp);
 
-		runSnapToRoad();
+		runSnapToRoad(0, []);
 	}
 	
 	// Add Midpoint Marker
@@ -159,14 +227,15 @@
 			});
 		}
 		// Determine where in the array to place the new marker
-		distances.sort(function(a, b){return a.value > b.value});
+		distances.sort(function(a, b){return a.value - b.value});
 		
 		// Add the new marker
 		var markerTmp = new google.maps.Marker({position : event.latLng, map : map, draggable : true});
 		markerTmp.addListener('dragend', dragMarker);
 		markerTmp.addListener('click', removeMarker);
+		console.log(distances[0].index + 1);
 		markers.splice(distances[0].index + 1, 0, markerTmp);
-		runSnapToRoad();
+		runSnapToRoad(0, []);
 	}
 	
 	$(window).load(initialize);
