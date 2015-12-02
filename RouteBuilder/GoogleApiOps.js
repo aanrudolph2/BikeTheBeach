@@ -28,10 +28,25 @@
 		var coordsOutput = {};
 		coordsOutput[routeName] = new Array();
 		var coords = snappedPolyline.getPath()['j'];
-
+		
+		var markerCnt = 0;
+		
 		for(var i = 0; i < coords.length; i ++)
 		{
-			coordsOutput[routeName].push([coords[i].lat(), coords[i].lng()])
+			if(markers[markerCnt].getPosition().equals(coords[i]))
+			{
+				var marker = markers[markerCnt];
+				
+				if(marker.directions)
+				{
+					coordsOutput[routeName].push([coords[i].lat(), coords[i].lng(), marker.directions]);
+				}
+				markerCnt ++;
+			}
+			else
+			{
+				coordsOutput[routeName].push([coords[i].lat(), coords[i].lng()]);
+			}
 		}
 		return coordsOutput;
 	}
@@ -60,12 +75,10 @@
 			{
 				for (var i = 0; i < data.snappedPoints.length; i ++)
 				{
-					var latlng = new google.maps.LatLng(
-						data.snappedPoints[i].location.latitude,
-						data.snappedPoints[i].location.longitude
-					);
+					var loc = data.snappedPoints[i].location;
+					var latlng = new google.maps.LatLng(loc.latitude, loc.longitude);
 					
-					if(data.snappedPoints[i].originalIndex)
+					if(data.snappedPoints[i].originalIndex >= 0)
 					{
 						markers[data.snappedPoints[i].originalIndex + startIndex].setPosition(latlng);
 					}
@@ -103,10 +116,30 @@
 
 		markerTmp.addListener('dragend', dragMarker);
 		markerTmp.addListener('click', removeMarker);
+		markerTmp.addListener('rightclick', function(event){showMarkerDialog(event, markerTmp);});
 
 		markers.push(markerTmp);
 
 		runSnapToRoad(0, []);
+	}
+	
+	function showMarkerDialog(event, marker)
+	{
+		var directions = "";
+		if(marker.directions)
+		{
+			directions = marker.directions;
+		}
+		var textarea = document.createElement("textarea");
+		textarea.value = directions;
+		
+		var infoWindow = new google.maps.InfoWindow({content : textarea});
+		
+		infoWindow.addListener('closeclick', function(event)
+		{
+			marker.directions = textarea.value;
+		});
+		infoWindow.open(map, marker);
 	}
 	
 	// Add Midpoint Marker
