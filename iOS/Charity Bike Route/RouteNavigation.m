@@ -199,6 +199,7 @@ int currentVertex = -1;
     [_mapView setUserInteractionEnabled:true];
 }
 
+// "Magic Function" - checks to see if a line segment intersects a circle by radius and position. Used for determining if the user is off-course.
 - (bool) lineIntersectsRadius:(CLLocationCoordinate2D)center : (CLLocationCoordinate2D) beginPoint : (CLLocationCoordinate2D) endPoint : (float) radius
 {
     return fabs((endPoint.longitude - beginPoint.longitude) * center.latitude + (beginPoint.latitude - endPoint.latitude) * center.longitude + (beginPoint.longitude - endPoint.longitude) * beginPoint.latitude + (endPoint.latitude - beginPoint.latitude) * beginPoint.longitude)/sqrt(pow(endPoint.longitude - beginPoint.longitude, 2) + pow(beginPoint.latitude - endPoint.latitude, 2)) <= radius;
@@ -222,6 +223,7 @@ int currentVertex = -1;
     return false;
 }
 
+// Gets the next instruction from the route
 - (NSString *) getNextInstruction:(CLLocation *) loc
 {
     for(int i = 0; i < markerCoordsLength - 1; i ++)
@@ -239,6 +241,7 @@ int currentVertex = -1;
     return nil;
 }
 
+// Speaks an arbitrary text sequence. Used for telling the user the next direction.
 - (void) speakText:(NSString *)text
 {
     AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:text];
