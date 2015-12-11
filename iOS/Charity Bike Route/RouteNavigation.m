@@ -51,7 +51,7 @@ int currentVertex = -1;
     }
     @catch(NSException * ex)
     {
-        
+        [[[UIAlertView alloc] initWithTitle:@"Invalid Route" message:@"Overlay creation failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
 }
 
@@ -87,7 +87,7 @@ int currentVertex = -1;
     
 }
 
-// Called when user manually pans map away from its center point. Shows the "Resueme Navigation" button.
+// Called when user manually pans map away from its center point. Shows the "Resume Navigation" button.
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
     if(mapView.userTrackingMode == MKUserTrackingModeNone)
@@ -112,17 +112,14 @@ int currentVertex = -1;
     else if(status == kCLAuthorizationStatusDenied)
     {
         // TODO: Nag user with an info dialog saying location authorization is required, then offer to re-request auth.
-        NSLog(@"Location auth failed");
-    }
-    else
-    {
-        NSLog(@"Unknown state");
+        [[[UIAlertView alloc] initWithTitle:@"Need Location Access" message:@"Please go to your settings and enable location access for Charity Bike Route" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+
     }
 }
 
 - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    NSLog(@"Location manager error: %@", error.localizedDescription);
+    [[[UIAlertView alloc] initWithTitle:@"Can't Determine Location" message:error.localizedFailureReason delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 
@@ -132,7 +129,6 @@ int currentVertex = -1;
     
     CLLocation * loc = [locations objectAtIndex:0];
     
-    // NSLog(@"%f", newLocation.course);
     // If we are travelling more than 2mph (0.894 m/sec), disable map interaction.
     if(loc.speed > 0.894)
     {
@@ -203,6 +199,11 @@ int currentVertex = -1;
     [_mapView setUserInteractionEnabled:true];
 }
 
+- (bool) lineIntersectsRadius:(CLLocationCoordinate2D)center : (CLLocationCoordinate2D) beginPoint : (CLLocationCoordinate2D) endPoint : (float) radius
+{
+    return fabs((endPoint.longitude - beginPoint.longitude) * center.latitude + (beginPoint.latitude - endPoint.latitude) * center.longitude + (beginPoint.longitude - endPoint.longitude) * beginPoint.latitude + (endPoint.latitude - beginPoint.latitude) * beginPoint.longitude)/sqrt(pow(endPoint.longitude - beginPoint.longitude, 2) + pow(beginPoint.latitude - endPoint.latitude, 2)) <= radius;
+}
+
 // Checks if user is on course
 - (bool) isOnCourse: (CLLocation *) loc
 {
@@ -212,7 +213,7 @@ int currentVertex = -1;
         CLLocationCoordinate2D p1 = markerCoords[i];
         CLLocationCoordinate2D p2 = markerCoords[i + 1];
         
-        if(fabs((p2.longitude - p1.longitude) * pos.latitude + (p1.latitude - p2.latitude) * pos.longitude + (p1.longitude - p2.longitude) * p1.latitude + (p2.latitude - p1.latitude) * p1.longitude)/sqrt(pow(p2.longitude - p1.longitude, 2) + pow(p1.latitude - p2.latitude, 2)) <= 0.00006f)
+        if([self lineIntersectsRadius:pos:p1:p2:0.00006f])
         {
             return true;
         }
