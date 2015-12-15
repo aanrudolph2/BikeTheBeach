@@ -6,12 +6,14 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewOverlay;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,16 +23,18 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
+import development.albie.bikethebeach.routedata.Coord;
 import development.albie.bikethebeach.routedata.DataAcquisition;
 import development.albie.bikethebeach.routedata.DataFetchable;
 import development.albie.bikethebeach.R;
 import development.albie.bikethebeach.routedata.Route;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DataFetchable, GoogleMap.OnMyLocationChangeListener
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener
 {
 
     private GoogleMap mMap;
     public ArrayList<LatLng> polylines = new ArrayList<>();
+    public Route selected_route;
 
     private int map_prev_padding = 10;
 
@@ -43,31 +47,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        DataAcquisition da = new DataAcquisition(this);
-        da.getRoutes();
-    }
-
-    /*
-     * Because data fetching is asyncronous, this is the callback function that gets called after calling da.getRoutes();
-     */
-    public void fetchRoutesFinish(ArrayList<Route> routes)
-    {
-        if(routes==null || routes.size() ==0)
+        Bundle route_fetch = this.getIntent().getExtras();
+        if (route_fetch != null)
         {
-            System.out.println("Error in downloaded Route data.");
-            return;
+            selected_route = route_fetch.getParcelable("SELECTED_ROUTE");
         }
-
-        for(int i =0; i< routes.get(0).getCoords().size();i++){
-            //double lat = routes.get(0).getCoords().get(i).getLat();
-            //double longi = routes.get(0).getCoords().get(i).getLongi();
-            polylines.add(new LatLng(routes.get(0).getCoords().get(i).getLat(),routes.get(0).getCoords().get(i).getLongi()));
-            //polylines.add(new LatLng(lat,longi));
-            //System.out.println("LAT" + routes.get(0).getCoords().get(i).getLat());
-        }
-
-        createRoute(mMap);
-        startPreview(mMap, routes);
     }
 
     /**
@@ -83,6 +67,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
+
+        for(int i =0; i< selected_route.getCoords().size();i++){
+            polylines.add(new LatLng(
+                    selected_route.getCoords().get(i).getLat(),
+                    selected_route.getCoords().get(i).getLongi()));
+        }
+
+        createRoute(mMap);
+        startPreview(mMap);
     }
 
     public void createRoute(GoogleMap googleMap)
@@ -95,23 +88,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMyLocationChangeListener(this);
     }
 
-    public void startPreview(GoogleMap googleMap, final ArrayList<Route> routes)
+    public void startPreview(GoogleMap googleMap)
     {
         double max_north, max_south;
         double max_east, max_west;
-        max_north = max_south = routes.get(0).getCoords().get(0).getLat();
-        max_east = max_west = routes.get(0).getCoords().get(0).getLongi();
+        max_north = max_south = selected_route.getCoords().get(0).getLat();
+        max_east = max_west = selected_route.getCoords().get(0).getLongi();
 
         double temp_lat  = 0.0;
         double temp_long = 0.0;
-        for(int i =0; i< routes.get(0).getCoords().size();i++){
-            temp_lat = routes.get(0).getCoords().get(i).getLat();
+        for(int i =0; i< selected_route.getCoords().size();i++){
+            temp_lat = selected_route.getCoords().get(i).getLat();
             if(temp_lat > max_north)
                 max_north = temp_lat;
             if(temp_lat < max_south)
                 max_south = temp_lat;
 
-            temp_long = routes.get(0).getCoords().get(i).getLongi();
+            temp_long = selected_route.getCoords().get(i).getLongi();
             if(temp_long > max_east)
                 max_east = temp_long;
             if(temp_long < max_west)
@@ -136,8 +129,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     double user_long = mMap.getMyLocation().getLongitude();
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(user_lat, user_long), 19));
                 } else {
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(routes.get(0).getCoords().get(0).getLat(),
-                            routes.get(0).getCoords().get(0).getLongi()), 19));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(selected_route.getCoords().get(0).getLat(),
+                            selected_route.getCoords().get(0).getLongi()), 19));
                 }
 
             }

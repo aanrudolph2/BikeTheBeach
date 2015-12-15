@@ -27,5 +27,6 @@
 - (void) disableInteraction;
 - (void) enableInteraction;
 - (bool) isOnCourse:(CLLocation *)loc;
+- (bool) lineIntersectsRadius:(CLLocationCoordinate2D)center : (CLLocationCoordinate2D) beginPoint : (CLLocationCoordinate2D) endPoint : (float) radius;
 
 @end

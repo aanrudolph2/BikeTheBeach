@@ -24,6 +24,7 @@
 @synthesize directions;
 
 BOOL onCourse = false;
+int currentVertex = -1;
 
 // Called when view loads
 - (void)viewDidLoad
@@ -50,7 +51,7 @@ BOOL onCourse = false;
     }
     @catch(NSException * ex)
     {
-        
+        [[[UIAlertView alloc] initWithTitle:@"Invalid Route" message:@"Overlay creation failed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
 }
 
@@ -75,10 +76,9 @@ BOOL onCourse = false;
         markerCoords[i] = CLLocationCoordinate2DMake([[[mapPoints objectAtIndex:i] objectAtIndex:0] doubleValue],
                                                      [[[mapPoints objectAtIndex:i] objectAtIndex:1] doubleValue]);
         
-        
         if([[mapPoints objectAtIndex:i] count] > 2)
         {
-            [directions setObject:[[NSNumber alloc] initWithInteger:i] forKey:[[mapPoints objectAtIndex:i] objectAtIndex:2]];
+            [directions setObject:[[mapPoints objectAtIndex:i] objectAtIndex:2] forKey:[[NSNumber alloc] initWithInteger:i]];
         }
     }
     
@@ -87,7 +87,7 @@ BOOL onCourse = false;
     
 }
 
-// Called when user manually pans map away from its center point. Shows the "Resueme Navigation" button.
+// Called when user manually pans map away from its center point. Shows the "Resume Navigation" button.
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
     if(mapView.userTrackingMode == MKUserTrackingModeNone)
@@ -112,17 +112,14 @@ BOOL onCourse = false;
     else if(status == kCLAuthorizationStatusDenied)
     {
         // TODO: Nag user with an info dialog saying location authorization is required, then offer to re-request auth.
-        NSLog(@"Location auth failed");
-    }
-    else
-    {
-        NSLog(@"Unknown state");
+        [[[UIAlertView alloc] initWithTitle:@"Need Location Access" message:@"Please go to your settings and enable location access for Charity Bike Route" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+
     }
 }
 
 - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    NSLog(@"Location manager error: %@", error.localizedDescription);
+    [[[UIAlertView alloc] initWithTitle:@"Can't Determine Location" message:error.localizedFailureReason delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 
@@ -132,7 +129,6 @@ BOOL onCourse = false;
     
     CLLocation * loc = [locations objectAtIndex:0];
     
-    // NSLog(@"%f", newLocation.course);
     // If we are travelling more than 2mph (0.894 m/sec), disable map interaction.
     if(loc.speed > 0.894)
     {
@@ -203,6 +199,12 @@ BOOL onCourse = false;
     [_mapView setUserInteractionEnabled:true];
 }
 
+// "Magic Function" - checks to see if a line segment intersects a circle by radius and position. Used for determining if the user is off-course.
+- (bool) lineIntersectsRadius:(CLLocationCoordinate2D)center : (CLLocationCoordinate2D) beginPoint : (CLLocationCoordinate2D) endPoint : (float) radius
+{
+    return fabs((endPoint.longitude - beginPoint.longitude) * center.latitude + (beginPoint.latitude - endPoint.latitude) * center.longitude + (beginPoint.longitude - endPoint.longitude) * beginPoint.latitude + (endPoint.latitude - beginPoint.latitude) * beginPoint.longitude)/sqrt(pow(endPoint.longitude - beginPoint.longitude, 2) + pow(beginPoint.latitude - endPoint.latitude, 2)) <= radius;
+}
+
 // Checks if user is on course
 - (bool) isOnCourse: (CLLocation *) loc
 {
@@ -212,7 +214,7 @@ BOOL onCourse = false;
         CLLocationCoordinate2D p1 = markerCoords[i];
         CLLocationCoordinate2D p2 = markerCoords[i + 1];
         
-        if(fabs((p2.longitude - p1.longitude) * pos.latitude + (p1.latitude - p2.latitude) * pos.longitude + (p1.longitude - p2.longitude) * p1.latitude + (p2.latitude - p1.latitude) * p1.longitude)/sqrt(pow(p2.longitude - p1.longitude, 2) + pow(p1.latitude - p2.latitude, 2)) <= 0.00004f)
+        if([self lineIntersectsRadius:pos:p1:p2:0.00006f])
         {
             return true;
         }
@@ -221,6 +223,7 @@ BOOL onCourse = false;
     return false;
 }
 
+// Gets the next instruction from the route
 - (NSString *) getNextInstruction:(CLLocation *) loc
 {
     for(int i = 0; i < markerCoordsLength - 1; i ++)
@@ -228,14 +231,17 @@ BOOL onCourse = false;
         CLLocationCoordinate2D pos = loc.coordinate;
         CLLocationCoordinate2D p1 = markerCoords[i];
         
-        if(sqrt(pow(pos.longitude - p1.longitude, 2) + pow(pos.latitude - p1.latitude, 2)) <= 0.00004f)
+        if(sqrt(pow(pos.longitude - p1.longitude, 2) + pow(pos.latitude - p1.latitude, 2)) <= 0.0001f
+         && currentVertex != i)
         {
+            currentVertex = i;
             return [directions objectForKey:[[NSNumber alloc] initWithInteger:i]];
         }
     }
     return nil;
 }
 
+// Speaks an arbitrary text sequence. Used for telling the user the next direction.
 - (void) speakText:(NSString *)text
 {
     AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:text];

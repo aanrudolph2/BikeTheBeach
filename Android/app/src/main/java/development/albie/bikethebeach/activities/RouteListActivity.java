@@ -34,7 +34,7 @@ import development.albie.bikethebeach.routedata.RouteListAdapter;
 public class RouteListActivity extends FragmentActivity implements DataFetchable {
 
     private Context mContext;
-    public ArrayList<LatLng> polylines = new ArrayList<>();
+    public ArrayList<Route> routes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +50,17 @@ public class RouteListActivity extends FragmentActivity implements DataFetchable
      */
     public void fetchRoutesFinish(ArrayList<Route> routes)
     {
-        if(routes==null || routes.size() ==0)
+        if(routes==null || routes.size() == 0)
         {
             System.out.println("Error in downloaded Route data.");
             return;
         }
 
-        for(int i =0; i< routes.get(0).getCoords().size();i++){
-            polylines.add(new LatLng(routes.get(0).getCoords().get(i).getLat(),routes.get(0).getCoords().get(i).getLongi()));
-            RouteListAdapter adapter = new RouteListAdapter(mContext, routes);
-            ListView list = (ListView) findViewById(R.id.routesList);
-            list.setAdapter(adapter);
-            setListener(list);
-        }
+        this.routes = routes;
+        RouteListAdapter adapter = new RouteListAdapter(mContext, routes);
+        ListView list = (ListView) findViewById(R.id.routesList);
+        list.setAdapter(adapter);
+        setListener(list);
 
     }
 
@@ -76,7 +74,7 @@ public class RouteListActivity extends FragmentActivity implements DataFetchable
                 // Start the CAB using the ActionMode.Callback defined above
                 Toast.makeText(mContext, String.valueOf(position), Toast.LENGTH_SHORT).show();
                 RouteListActivity act = (RouteListActivity) mContext;
-                act.startPreview();
+                act.startPreview(routes.get(position));
                 view.setSelected(true);
 
                 //THIS NEEDS TO PASS IN THE APPROPRIATE ROUTE DATA TO THE PREVIEW ACT
@@ -85,8 +83,11 @@ public class RouteListActivity extends FragmentActivity implements DataFetchable
 
     }
 
-    public void startPreview(){
+    public void startPreview(Route selected_route){
         Intent mapIntent = new Intent(this, MapsActivity.class);
+        Bundle route_bundle = new Bundle();
+        route_bundle.putParcelable("SELECTED_ROUTE", selected_route);
+        mapIntent.putExtras(route_bundle);
         this.startActivity(mapIntent);
     }
 

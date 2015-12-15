@@ -15,158 +15,92 @@
 	#panel
 	{
 		position: absolute;
-		top: 5px;
-		left: 50%;
-		margin-left: -180px;
+		bottom: 5px;
+		left: 5%;
 		z-index: 5;
 		background-color: #fff;
 		padding: 5px;
 		border: 1px solid #999;
+		width: 512px;
 	}
 
-	#bar
+	#coordsDisplay
 	{
-		width: 240px;
-		background-color: rgba(255, 255, 255, 0.75);
-		margin: 8px;
-		padding: 4px;
-		border-radius: 4px;
+		display: none;
 	}
 
-	#autoc
-	{
-		width: 100%;
-		box-sizing: border-box;
-	}
 	</style>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?libraries=drawing,places"></script>
+	<script src="GoogleApiOps.js"></script>
 	<script>
-	var apiKey = 'AIzaSyBUyIV-JfLai3CEzPCOIRmWrfZU8-c4hm4';
 
-	var map;
-	var markers = [];
-	var snappedPolyline;
-	
+	// Manages Hint Text for Route Text Box
+	function setHintText(event)
+	{
+		var element = event.target;
+		if(event.type == "blur")
+		{
+			if(element.value == "")
+			{
+				element.value = "Route Name";
+				element.style.color = "#999";
+			}
+		}
+		else if(event.type == "focus")
+		{
+			if(element.value == "Route Name")
+			{
+				element.value = "";
+				element.style.color = "#000";
+			}
+		}
+	}
+
+	function copyRouteData(event)
+	{
+		var coordsDiv = document.getElementById('coordsDisplay');
+
+		coordsDiv.style.display = "block";
+
+		updateRoute();
+		selectText('coordsDisplay');
+		document.execCommand('Copy');
+
+		coordsDiv.style.display = "none";
+	}
+
+	function selectText(containerid)
+	{
+        if (document.selection)
+        {
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById(containerid));
+            range.select();
+        }
+        else if (window.getSelection)
+        {
+            var range = document.createRange();
+            range.selectNode(document.getElementById(containerid));
+            window.getSelection().addRange(range);
+        }
+    }
+
+	function updateRoute()
+	{
+		var routeObj = getRouteObject($("#routeNameText").val());
+		$("#coordsDisplay").text(JSON.stringify(routeObj, null, "\t"));
+	}
 
 	function initialize()
 	{
-		var mapOptions =
-		{
-			zoom: 17,
-			center: {lat: 41.143353, lng: -73.236580},
-			streetViewControl : false,
-			mapTypeControl : false,
-			styles : [{featureType : "poi", elementType : "labels", stylers : [{visibility : "off"}]}]
-		};
-		map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		initializeMapAPI();
 		
-		map.addListener('click', addMarker);
-		snappedPolyline = new google.maps.Polyline({strokeColor: 'blue', strokeWeight: 5, map : map, strokeOpacity : 0.5});
-		snappedPolyline.addListener('click', insertMarker);
-		
-		
-	}
-	
-	// Call Snap To Road API
-	function runSnapToRoad()
-	{
-		// Clear polylines first
-		for(var i = 0; i < markers.length; i ++)
-		{
-			if(markers[i].polyline)
-				markers[i].polyline.setMap(null);
-		}
+		document.getElementById('routeNameText').addEventListener("blur", setHintText);
+		document.getElementById('routeNameText').addEventListener("focus", setHintText);
+		document.getElementById('copyRouteButton').addEventListener("click", copyRouteData);
 
-		var pathValues = [];
-		for (var i = 0; i < markers.length; i++)
-		{
-			pathValues.push(markers[i].position.lat() + "," + markers[i].position.lng());
-		}
-		$.get('https://roads.googleapis.com/v1/snapToRoads',
-		{
-			interpolate: true,
-			key: apiKey,
-			path: pathValues.join('|')
-		},
-		function(data)
-		{
-			processSnapToRoadResponse(data);
-		});
-	}
-
-	// Store snapped polyline returned by the snap-to-road method.
-	function processSnapToRoadResponse(data)
-	{
-		var snappedCoordinates = [];
-		for (var i = 0; i < data.snappedPoints.length; i++)
-		{
-			var latlng = new google.maps.LatLng(
-			data.snappedPoints[i].location.latitude,
-			data.snappedPoints[i].location.longitude);
-			
-			if(data.snappedPoints[i].originalIndex)
-			{
-				markers[data.snappedPoints[i].originalIndex].setPosition(latlng);
-			}
-			
-			snappedCoordinates.push(latlng);
-		}
-		snappedPolyline.setPath(snappedCoordinates);
-	}
-
-	// Drag Marker
-	function dragMarker(event)
-	{
-		runSnapToRoad();
-	}
-
-	// Remove Marker
-	function removeMarker(event)
-	{
-		var idx = markers.indexOf(this);
-		var removed = markers.splice(idx, 1);
-		removed[0].setMap(null);
-		runSnapToRoad();
-	}
-
-	// Add marker
-	function addMarker(event)
-	{
-		var markerTmp = new google.maps.Marker({position : event.latLng, map : map, draggable : true});
-
-		markerTmp.addListener('dragend', dragMarker);
-		markerTmp.addListener('click', removeMarker);
-
-		markers.push(markerTmp);
-
-		runSnapToRoad();
-	}
-	
-	// Add Midpoint Marker
-	function insertMarker(event)
-	{
-		var distances = [];
-		// Convenience Declaration
-		var dist = google.maps.geometry.spherical.computeDistanceBetween;
-		for(var i = 0; i < markers.length - 1; i ++)
-		{
-			distances.push(
-			{
-				index : i,
-				value : dist(event.latLng, markers[i].getPosition()) + dist(event.latLng, markers[i + 1].getPosition())
-			});
-		}
-		// Determine where in the array to place the new marker
-		distances.sort(function(a, b){return a.value > b.value});
-		
-		// Add the new marker
-		var markerTmp = new google.maps.Marker({position : event.latLng, map : map, draggable : true});
-		markerTmp.addListener('dragend', dragMarker);
-		markerTmp.addListener('click', removeMarker);
-		markers.splice(distances[0].index + 1, 0, markerTmp);
-		runSnapToRoad();
 	}
 	
 	$(window).load(initialize);
@@ -175,9 +109,10 @@
 
 	<body>
 	<div id="map"></div>
-	<div id="bar">
-	<p class="auto"><input type="text" id="autoc"/></p>
-	<p><a id="clear" href="#">Click here</a> to clear map.</p>
+	<div id="panel">
+	<input type="text" id="routeNameText" value="Route Name" style="color: #999" />
+	<button id="copyRouteButton">Copy Route Data</button>
+		<div id="coordsDisplay" style="display: hidden"></div>
 	</div>
 	</body>
 </html>
