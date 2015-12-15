@@ -37,7 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Route selected_route;
 
     private int map_prev_padding = 10;
-
+    private boolean navStarted = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final Button button = (Button) findViewById(R.id.start_nav_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                navStarted = true;
                 if (mMap.getMyLocation() != null) {
                     double user_lat = mMap.getMyLocation().getLatitude();
                     double user_long = mMap.getMyLocation().getLongitude();
@@ -132,6 +133,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(selected_route.getCoords().get(0).getLat(),
                             selected_route.getCoords().get(0).getLongi()), 19));
                 }
+                button.setVisibility(View.INVISIBLE);
 
             }
         });
@@ -140,9 +142,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMyLocationChange(Location location)
     {
-        if(!onCourse(location))
+        if(!onCourse(location) && navStarted)
         {
+            TextView tv = (TextView) findViewById(R.id.offCourseTv);
+            tv.setVisibility(View.VISIBLE);
             Log.d("Location", "Off Course");
+        }else{
+            TextView tv = (TextView) findViewById(R.id.offCourseTv);
+            tv.setVisibility(View.INVISIBLE);
         }
     }
 

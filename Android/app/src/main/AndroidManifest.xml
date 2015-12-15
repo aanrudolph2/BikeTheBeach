@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name=".activities.RouteListActivity"
-            android:label="Routes List" >
+            android:label="Bike The Beach" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -53,7 +53,7 @@ public class RouteListAdapter extends BaseAdapter {
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 
-        routeNameTv.setText("Route "+ String.valueOf(position));
+        routeNameTv.setText("Route "+ String.valueOf(position+1));
 
 
 

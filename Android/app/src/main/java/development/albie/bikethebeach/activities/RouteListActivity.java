@@ -72,7 +72,7 @@ public class RouteListActivity extends FragmentActivity implements DataFetchable
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Start the CAB using the ActionMode.Callback defined above
-                Toast.makeText(mContext, String.valueOf(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Loading Route " + String.valueOf(position+1), Toast.LENGTH_SHORT).show();
                 RouteListActivity act = (RouteListActivity) mContext;
                 act.startPreview(routes.get(position));
                 view.setSelected(true);
